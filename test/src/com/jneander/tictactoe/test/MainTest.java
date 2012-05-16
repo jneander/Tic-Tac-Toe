@@ -101,6 +101,18 @@ public class MainTest extends TestCase {
     assertTrue( lastMark.row == 0 );
     assertTrue( lastMark.col == 2 );
   }
+  
+  public void testComputerBlocksConsecutiveColPlayerMarks() {
+    testAllSpacesOpen();
+    
+    game.makePlayerMark( new Mark( 0, 0, MarkType.PLAYER ) );
+    game.makePlayerMark( new Mark( 1, 0, MarkType.PLAYER ) );
+    game.makeComputerMark();
+    Mark lastMark = game.getLastMark();
+    
+    assertTrue( lastMark.row == 2 );
+    assertTrue( lastMark.col == 0 );
+  }
 
   private void getGameBoard() {
     gameBoard = game.getGameBoard();
