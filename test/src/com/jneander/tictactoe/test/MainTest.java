@@ -24,7 +24,7 @@ public class MainTest extends TestCase {
         assertTrue( gameBoard[row][col].getType() == MarkType.BLANK );
   }
 
-  public void testLastMoveWasMade() {
+  public void testLastMarkWasMade() {
     testAllSpacesOpen();
 
     game.makePlayerMark( 0, 0 );
@@ -56,7 +56,7 @@ public class MainTest extends TestCase {
     assertTrue( xNumberOfMarksHaveBeenMade( 1 ) );
   }
 
-  public void testComputerAnswersPlayerFirstCornerMove() {
+  public void testComputerAnswersPlayerFirstCornerMark() {
     testAllSpacesOpen();
 
     game.makePlayerMark( 0, 0 );
@@ -68,7 +68,7 @@ public class MainTest extends TestCase {
     assertFalse( lastMark.row == 2 && lastMark.col == 1 );
   }
 
-  public void testComputerAnswersPlayerFirstEdgeMove() {
+  public void testComputerAnswersPlayerFirstEdgeMark() {
     testAllSpacesOpen();
 
     game.makePlayerMark( 1, 0 );
@@ -79,7 +79,7 @@ public class MainTest extends TestCase {
     assertTrue( lastMark.row == 1 && lastMark.col == 1 );
   }
 
-  public void testComputerAnswersPlayerFirstCenterMove() {
+  public void testComputerAnswersPlayerFirstCenterMark() {
     testAllSpacesOpen();
 
     game.makePlayerMark( 1, 1 );
