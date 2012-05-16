@@ -139,7 +139,8 @@ public class Game {
     Iterator< Mark[] > winningSetsIterator = winningSets.iterator();
     while ( winningSetsIterator.hasNext() && !gameOver ) {
       Mark[] set = winningSetsIterator.next();
-      gameOver = (set[0].getType() == set[1].getType() && set[1].getType() == set[2].getType());
+      gameOver = (set[0].getType() == set[1].getType() && set[1].getType() == set[2].getType()
+          && set[0].getType() != MarkType.BLANK);
     }
 
     return gameOver;

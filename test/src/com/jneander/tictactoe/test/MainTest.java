@@ -141,6 +141,9 @@ public class MainTest extends TestCase {
   public void testGameOver() {
     game.makePlayerMark( 0, 0 );
     game.makePlayerMark( 1, 0 );
+
+    assertFalse( game.isGameOver() );
+
     game.makePlayerMark( 2, 0 );
 
     assertTrue( game.isGameOver() );
