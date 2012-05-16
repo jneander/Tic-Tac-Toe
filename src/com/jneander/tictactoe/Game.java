@@ -153,4 +153,16 @@ public class Game {
   private boolean isCenterMark( Mark mark ) {
     return (mark.row == 1 && mark.col == 1);
   }
+
+  public boolean isGameOver() {
+    boolean gameOver = false;
+
+    Iterator< Mark[] > winningSetsIterator = winningSets.iterator();
+    while ( winningSetsIterator.hasNext() && !gameOver ) {
+      Mark[] set = winningSetsIterator.next();
+      gameOver = (set[0].getType() == set[1].getType() && set[1].getType() == set[2].getType());
+    }
+
+    return gameOver;
+  }
 }

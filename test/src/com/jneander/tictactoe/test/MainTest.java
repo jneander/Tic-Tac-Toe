@@ -138,6 +138,14 @@ public class MainTest extends TestCase {
     assertTrue( lastMark.col == 2 );
   }
 
+  public void testGameOver() {
+    game.makePlayerMark( 0, 0 );
+    game.makePlayerMark( 1, 0 );
+    game.makePlayerMark( 2, 0 );
+
+    assertTrue( game.isGameOver() );
+  }
+
   private void getGameBoard() {
     gameBoard = game.getGameBoard();
   }
