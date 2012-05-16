@@ -7,17 +7,20 @@ import java.util.List;
 import com.jneander.tictactoe.Mark.MarkType;
 
 public class Game {
+  private Mark gameBoard[][];
   private Mark lastMark;
+
+  private int playerMarkCount;
   private int computerMarkCount;
 
-  private Mark gameBoard[][];
   private List< Mark[] > winningSets;
+  private MarkType winner;
+  boolean gameOver;
 
   public Game() {
     gameBoard = new Mark[3][3];
 
-    resetGameBoard();
-
+    resetGame();
     makeWinningSetList();
   }
 
@@ -43,10 +46,16 @@ public class Game {
     winningSets.add( rightDiagonal );
   }
 
-  private void resetGameBoard() {
+  private void resetGame() {
     for ( int row = 0; row < gameBoard.length; row++ )
       for ( int col = 0; col < gameBoard[row].length; col++ )
         gameBoard[row][col] = new Mark( row, col );
+
+    playerMarkCount = 0;
+    computerMarkCount = 0;
+
+    gameOver = false;
+    winner = MarkType.BLANK;
   }
 
   public Mark[][] getGameBoard() {
@@ -58,8 +67,8 @@ public class Game {
   }
 
   public void makePlayerMark( int row, int col ) {
-    gameBoard[row][col].setToPlayer();
-    lastMark = gameBoard[row][col];
+    playerMarkCount++;
+    makeMark( row, col, MarkType.PLAYER );
   }
 
   public void makeComputerMark() {
@@ -79,9 +88,18 @@ public class Game {
     if ( nextMark == null )
       nextMark = getBlankEdge();
 
-    gameBoard[nextMark.row][nextMark.col].setToComputer();
-    lastMark = nextMark;
     computerMarkCount++;
+    makeMark( nextMark.row, nextMark.col, MarkType.COMPUTER );
+  }
+
+  private void makeMark( int row, int col, MarkType markType ) {
+    if ( markType == MarkType.PLAYER )
+      gameBoard[row][col].setToPlayer();
+    else
+      gameBoard[row][col].setToComputer();
+
+    lastMark = gameBoard[row][col];
+    checkForGameOver();
   }
 
   private Mark getWinningMark( MarkType markType ) {
@@ -105,13 +123,20 @@ public class Game {
   private Mark getUnionMark() {
     Mark nextMark = null;
 
-    if ( isUnion( gameBoard[0][0] ) )
+    boolean topLeft = isUnion( gameBoard[0][0] );
+    boolean topRight = isUnion( gameBoard[0][2] );
+    boolean bottomLeft = isUnion( gameBoard[2][0] );
+    boolean bottomRight = isUnion( gameBoard[2][2] );
+
+    if ( (topLeft && bottomRight) || (topRight && bottomLeft) )
+      nextMark = getBlankEdge();
+    else if ( topLeft )
       nextMark = gameBoard[0][0];
-    else if ( isUnion( gameBoard[0][2] ) )
+    else if ( topRight )
       nextMark = gameBoard[0][2];
-    else if ( isUnion( gameBoard[2][0] ) )
+    else if ( bottomLeft )
       nextMark = gameBoard[2][0];
-    else if ( isUnion( gameBoard[2][2] ) )
+    else if ( bottomRight )
       nextMark = gameBoard[2][2];
 
     return nextMark;
@@ -176,19 +201,40 @@ public class Game {
     return blankCorner;
   }
 
+  public void checkForGameOver() {
+    Iterator< Mark[] > winningSetsIterator = winningSets.iterator();
+
+    while ( winningSetsIterator.hasNext() && !gameOver ) {
+      Mark[] set = winningSetsIterator.next();
+
+      if ( set[0].getType() == set[1].getType()
+          && set[1].getType() == set[2].getType()
+          && set[0].getType() != MarkType.BLANK ) {
+        winner = set[0].getType();
+        gameOver = true;
+      }
+    }
+
+    gameOver |= (computerMarkCount + playerMarkCount == 9);
+  }
+
+  public MarkType getWinner() {
+    return this.winner;
+  }
+
   private Mark getBlankEdge() {
-    Mark blankCorner = null;
+    Mark blankEdge = null;
 
     if ( gameBoard[1][0].getType() == MarkType.BLANK )
-      blankCorner = gameBoard[0][0];
+      blankEdge = gameBoard[1][0];
     else if ( gameBoard[0][1].getType() == MarkType.BLANK )
-      blankCorner = gameBoard[0][2];
+      blankEdge = gameBoard[0][1];
     else if ( gameBoard[2][1].getType() == MarkType.BLANK )
-      blankCorner = gameBoard[2][0];
+      blankEdge = gameBoard[2][1];
     else if ( gameBoard[1][2].getType() == MarkType.BLANK )
-      blankCorner = gameBoard[2][2];
+      blankEdge = gameBoard[1][2];
 
-    return blankCorner;
+    return blankEdge;
   }
 
   private boolean winningMarkPossibleInSet( Mark marks[], MarkType markType ) {
@@ -215,15 +261,6 @@ public class Game {
   }
 
   public boolean isGameOver() {
-    boolean gameOver = false;
-
-    Iterator< Mark[] > winningSetsIterator = winningSets.iterator();
-    while ( winningSetsIterator.hasNext() && !gameOver ) {
-      Mark[] set = winningSetsIterator.next();
-      gameOver = (set[0].getType() == set[1].getType() && set[1].getType() == set[2].getType()
-          && set[0].getType() != MarkType.BLANK);
-    }
-
-    return gameOver;
+    return this.gameOver;
   }
 }

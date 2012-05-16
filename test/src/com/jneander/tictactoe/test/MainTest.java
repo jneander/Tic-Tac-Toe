@@ -179,6 +179,95 @@ public class MainTest extends TestCase {
     assertTrue( lastMark.col == 2 );
   }
 
+  public void testComputerWillNeverLoseWhenGoingFirst() {
+    int markIndices[] = new int[4];
+    int runCount = 0;
+
+    for ( markIndices[0] = 0; markIndices[0] < 9; markIndices[0]++ ) {
+      for ( markIndices[1] = 0; markIndices[1] < 9; markIndices[1]++ ) {
+        for ( markIndices[2] = 0; markIndices[2] < 9; markIndices[2]++ ) {
+          for ( markIndices[3] = 0; markIndices[3] < 9; markIndices[3]++ ) {
+            runCount++;
+            if ( integersAreUnique( markIndices ) ) {
+              game = new Game();
+              boolean terminate = false;
+              Mark gameBoard[][] = game.getGameBoard();
+
+              for ( int turn = 0; turn < markIndices.length && !game.isGameOver() && !terminate; turn++ ) {
+                game.makeComputerMark();
+
+                if ( !game.isGameOver() ) {
+                  int row = markIndices[turn] % 3;
+                  int col = markIndices[turn] / 3;
+
+                  if ( gameBoard[row][col].getType() != MarkType.BLANK )
+                    terminate = true;
+                  else
+                    game.makePlayerMark( row, col );
+                }
+              }
+
+              if ( game.isGameOver() )
+                assertTrue( game.getWinner() != MarkType.PLAYER );
+            }
+          }
+        }
+      }
+    }
+
+    assertTrue( runCount == 6561 );
+  }
+
+  public void testComputerWillNeverLoseWhenGoingSecond() {
+    int markIndices[] = new int[5];
+    int runCount = 0;
+
+    for ( markIndices[0] = 0; markIndices[0] < 9; markIndices[0]++ ) {
+      for ( markIndices[1] = 0; markIndices[1] < 9; markIndices[1]++ ) {
+        for ( markIndices[2] = 0; markIndices[2] < 9; markIndices[2]++ ) {
+          for ( markIndices[3] = 0; markIndices[3] < 9; markIndices[3]++ ) {
+            for ( markIndices[4] = 0; markIndices[4] < 9; markIndices[4]++ ) {
+              runCount++;
+              if ( integersAreUnique( markIndices ) ) {
+                game = new Game();
+                boolean terminate = false;
+                Mark gameBoard[][] = game.getGameBoard();
+
+                for ( int turn = 0; turn < markIndices.length && !game.isGameOver() && !terminate; turn++ ) {
+                  int row = markIndices[turn] % 3;
+                  int col = markIndices[turn] / 3;
+
+                  if ( gameBoard[row][col].getType() != MarkType.BLANK )
+                    terminate = true;
+                  else
+                    game.makePlayerMark( row, col );
+
+                  if ( !game.isGameOver() )
+                    game.makeComputerMark();
+                }
+
+                if ( game.isGameOver() )
+                  assertTrue( game.getWinner() != MarkType.PLAYER );
+              }
+            }
+          }
+        }
+      }
+    }
+
+    assertTrue( runCount == 59049 );
+  }
+
+  private boolean integersAreUnique( int integers[] ) {
+    boolean areUnique = true;
+
+    for ( int first = 0; first < integers.length - 1; first++ )
+      for ( int second = first + 1; second < integers.length; second++ )
+        areUnique &= first != second;
+
+    return areUnique;
+  }
+
   private void getGameBoard() {
     gameBoard = game.getGameBoard();
   }
@@ -213,6 +302,5 @@ public class MainTest extends TestCase {
     character = mark.getType() == MarkType.PLAYER ? 'O' : character;
 
     return character;
-
   }
 }
