@@ -1,12 +1,14 @@
 package com.jneander.tictactoe;
 
+import com.jneander.tictactoe.Mark.MarkType;
+
 public class Game {
-  private int gameBoard[][];
+  private MarkType gameBoard[][];
   private Mark lastMark;
   private int playerMarks;
 
   public Game() {
-    gameBoard = new int[3][3];
+    gameBoard = new MarkType[3][3];
 
     clearGameBoard();
     playerMarks = 0;
@@ -15,33 +17,33 @@ public class Game {
   private void clearGameBoard() {
     for ( int row = 0; row < gameBoard.length; row++ )
       for ( int col = 0; col < gameBoard[row].length; col++ )
-        gameBoard[row][col] = -1;
+        gameBoard[row][col] = MarkType.BLANK;
   }
 
-  public int[][] getGameBoard() {
+  public MarkType[][] getGameBoard() {
     return gameBoard;
   }
 
   public void makePlayerMark( Mark mark ) {
-    gameBoard[mark.row][mark.col] = 1;
+    gameBoard[mark.row][mark.col] = MarkType.PLAYER;
     lastMark = mark;
     playerMarks++;
   }
 
   public void makeComputerMark() {
-    Mark mark = new Mark( 1, 1 );
+    Mark mark = new Mark( 1, 1, MarkType.COMPUTER );
 
     if ( playerMarks == 1 ) {
       if ( isCornerMark( lastMark ) ) {
-        mark = new Mark( 1, 1 );
+        mark = new Mark( 1, 1, MarkType.COMPUTER );
       } else if ( isEdgeMark( lastMark ) ) {
-        mark = new Mark( 1, 1 );
+        mark = new Mark( 1, 1, MarkType.COMPUTER );
       } else {
-        mark = new Mark( 0, 0 );
+        mark = new Mark( 0, 0, MarkType.COMPUTER );
       }
     }
 
-    gameBoard[mark.row][mark.col] = 0;
+    gameBoard[mark.row][mark.col] = mark.markType;
     lastMark = mark;
   }
 
