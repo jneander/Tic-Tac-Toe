@@ -29,13 +29,15 @@ public class Game {
   }
 
   public void makeComputerMark() {
-    Mark mark = new Mark(1,1);
+    Mark mark = new Mark( 1, 1 );
 
     if ( playerMarks == 1 ) {
-      if ( isCornerMark(lastMove) ) {
-        mark = new Mark(1,1);
-      } else if ( isEdgeMark(lastMove)) {
-        mark = new Mark(1,1);
+      if ( isCornerMark( lastMove ) ) {
+        mark = new Mark( 1, 1 );
+      } else if ( isEdgeMark( lastMove ) ) {
+        mark = new Mark( 1, 1 );
+      } else {
+        mark = new Mark( 0, 0 );
       }
     }
 
