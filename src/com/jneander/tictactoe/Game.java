@@ -48,9 +48,23 @@ public class Game {
           mark = new Mark( row, findBlockPosition( gameBoard[row] ), MarkType.COMPUTER );
       }
       for ( int col = 0; (col < gameBoard[0].length) && !madeMark; col++ ) {
-        MarkType colMarks[] = getGameBoardColumn(col);
+        MarkType colMarks[] = getGameBoardColumn( col );
         if ( setNeedsBlock( colMarks ) )
           mark = new Mark( findBlockPosition( colMarks ), col, MarkType.COMPUTER );
+      }
+      if ( !madeMark ) {
+        MarkType diagMarks[] = new MarkType[] { gameBoard[0][0], gameBoard[1][1], gameBoard[2][2] };
+        if ( setNeedsBlock( diagMarks ) ) {
+          int pos = findBlockPosition( diagMarks );
+          mark = new Mark( pos, pos, MarkType.COMPUTER );
+        }
+      }
+      if ( !madeMark ) {
+        MarkType diagMarks[] = new MarkType[] { gameBoard[0][2], gameBoard[1][1], gameBoard[2][0] };
+        if ( setNeedsBlock( diagMarks ) ) {
+          int pos = findBlockPosition( diagMarks );
+          mark = new Mark( pos, gameBoard[0].length - pos - 1, MarkType.COMPUTER );
+        }
       }
 
     }
@@ -61,10 +75,10 @@ public class Game {
 
   private MarkType[] getGameBoardColumn( int col ) {
     MarkType marks[] = new MarkType[gameBoard.length];
-    
-    for (int row = 0; row < gameBoard.length; row++)
+
+    for ( int row = 0; row < gameBoard.length; row++ )
       marks[row] = gameBoard[row][col];
-    
+
     return marks;
   }
 
