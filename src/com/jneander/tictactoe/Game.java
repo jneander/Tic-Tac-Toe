@@ -8,7 +8,6 @@ import com.jneander.tictactoe.Mark.MarkType;
 
 public class Game {
   private Mark lastMark;
-  private int playerMarks;
   private int computerMarkCount;
 
   private Mark gameBoard[][];
@@ -18,7 +17,6 @@ public class Game {
     gameBoard = new Mark[3][3];
 
     resetGameBoard();
-    playerMarks = 0;
 
     makeWinningSetList();
   }
@@ -62,35 +60,32 @@ public class Game {
   public void makePlayerMark( int row, int col ) {
     gameBoard[row][col].setToPlayer();
     lastMark = gameBoard[row][col];
-    playerMarks++;
   }
 
   public void makeComputerMark() {
-    Mark nextMark = gameBoard[0][0];
+    Mark nextMark = null;
 
-    makeWinningSetList();
-
-    if ( playerMarks == 1 ) {
-      if ( isCenterMark( lastMark ) ) {
-        nextMark = gameBoard[0][0];
-      } else {
-        nextMark = gameBoard[1][1];
-      }
-    } else if ( computerMustBlock() ) {
-      nextMark = getBlockMark();
-    } else if ( computerShouldBlockAndFork() ) {
+    nextMark = getWinningMark( MarkType.COMPUTER );
+    if ( nextMark == null )
+      nextMark = getWinningMark( MarkType.PLAYER );
+    if ( nextMark == null && computerShouldBlockAndFork() )
       nextMark = getUnionMark();
-    } else if ( computerCanFork() ) {
-      nextMark = getForkMark();
-    }
+    if ( nextMark == null && computerCanFork() )
+      nextMark = getBlankCorner();
+    if ( nextMark == null && !centerIsMarked() )
+      nextMark = gameBoard[1][1];
+    if ( nextMark == null )
+      nextMark = getBlankCorner();
+    if ( nextMark == null )
+      nextMark = getBlankEdge();
 
     gameBoard[nextMark.row][nextMark.col].setToComputer();
     lastMark = nextMark;
     computerMarkCount++;
   }
 
-  private Mark getBlockMark() {
-    Mark nextMark = gameBoard[0][0];
+  private Mark getWinningMark( MarkType markType ) {
+    Mark nextMark = null;
     boolean madeMark = false;
 
     Iterator< Mark[] > winningSetsIterator = winningSets.iterator();
@@ -98,7 +93,7 @@ public class Game {
     while ( winningSetsIterator.hasNext() && !madeMark ) {
       Mark[] currentMarkSet = winningSetsIterator.next();
 
-      if ( setNeedsBlock( currentMarkSet ) ) {
+      if ( winningMarkPossibleInSet( currentMarkSet, markType ) ) {
         nextMark = findMarkForBlock( currentMarkSet );
         madeMark = true;
       }
@@ -107,23 +102,8 @@ public class Game {
     return nextMark;
   }
 
-  private Mark getForkMark() {
-    Mark nextMark;
-
-    if ( gameBoard[0][0].getType() == MarkType.BLANK )
-      nextMark = gameBoard[0][0];
-    else if ( gameBoard[2][0].getType() == MarkType.BLANK )
-      nextMark = gameBoard[2][0];
-    else if ( gameBoard[0][2].getType() == MarkType.BLANK )
-      nextMark = gameBoard[0][2];
-    else
-      nextMark = gameBoard[2][2];
-
-    return nextMark;
-  }
-
   private Mark getUnionMark() {
-    Mark nextMark;
+    Mark nextMark = null;
 
     if ( isUnion( gameBoard[0][0] ) )
       nextMark = gameBoard[0][0];
@@ -131,7 +111,7 @@ public class Game {
       nextMark = gameBoard[0][2];
     else if ( isUnion( gameBoard[2][0] ) )
       nextMark = gameBoard[2][0];
-    else
+    else if ( isUnion( gameBoard[2][2] ) )
       nextMark = gameBoard[2][2];
 
     return nextMark;
@@ -181,24 +161,41 @@ public class Game {
     return (computerMarkCount != 0 && !cornersAreMarked());
   }
 
-  private boolean computerMustBlock() {
-    boolean blockNeeded = false;
+  private Mark getBlankCorner() {
+    Mark blankCorner = null;
 
-    Iterator< Mark[] > winningSetsIterator = winningSets.iterator();
+    if ( gameBoard[0][0].getType() == MarkType.BLANK )
+      blankCorner = gameBoard[0][0];
+    else if ( gameBoard[0][2].getType() == MarkType.BLANK )
+      blankCorner = gameBoard[0][2];
+    else if ( gameBoard[2][0].getType() == MarkType.BLANK )
+      blankCorner = gameBoard[2][0];
+    else if ( gameBoard[2][2].getType() == MarkType.BLANK )
+      blankCorner = gameBoard[2][2];
 
-    while ( winningSetsIterator.hasNext() && !blockNeeded ) {
-      Mark[] currentMarkSet = winningSetsIterator.next();
-      blockNeeded = setNeedsBlock( currentMarkSet );
-    }
-
-    return blockNeeded;
+    return blankCorner;
   }
 
-  private boolean setNeedsBlock( Mark marks[] ) {
+  private Mark getBlankEdge() {
+    Mark blankCorner = null;
+
+    if ( gameBoard[1][0].getType() == MarkType.BLANK )
+      blankCorner = gameBoard[0][0];
+    else if ( gameBoard[0][1].getType() == MarkType.BLANK )
+      blankCorner = gameBoard[0][2];
+    else if ( gameBoard[2][1].getType() == MarkType.BLANK )
+      blankCorner = gameBoard[2][0];
+    else if ( gameBoard[1][2].getType() == MarkType.BLANK )
+      blankCorner = gameBoard[2][2];
+
+    return blankCorner;
+  }
+
+  private boolean winningMarkPossibleInSet( Mark marks[], MarkType markType ) {
     int blankCount = 0, playerCount = 0;
 
     for ( Mark mark : marks ) {
-      if ( mark.getType() == MarkType.PLAYER )
+      if ( mark.getType() == markType )
         playerCount++;
       else if ( mark.getType() == MarkType.BLANK )
         blankCount++;
@@ -215,10 +212,6 @@ public class Game {
         blockMark = mark;
 
     return blockMark;
-  }
-
-  private boolean isCenterMark( Mark mark ) {
-    return (mark.row == 1 && mark.col == 1);
   }
 
   public boolean isGameOver() {

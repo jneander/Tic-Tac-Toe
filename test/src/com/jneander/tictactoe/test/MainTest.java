@@ -169,6 +169,16 @@ public class MainTest extends TestCase {
     assertTrue( lastMark.col == 2 );
   }
 
+  public void testComputerWillMakeWinningMark() {
+    game.makeComputerMark();
+    game.makeComputerMark();
+    game.makeComputerMark();
+    Mark lastMark = game.getLastMark();
+
+    assertTrue( lastMark.row == 2 );
+    assertTrue( lastMark.col == 2 );
+  }
+
   private void getGameBoard() {
     gameBoard = game.getGameBoard();
   }
