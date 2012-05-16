@@ -9,11 +9,15 @@ public class MainTest extends TestCase {
 
   protected void setUp() throws Exception {
     super.setUp();
-    
+
     game = new Game();
   }
-  
+
   public void testAllSpacesOpen() {
-    
+    int spaces[][] = game.getGameBoard();
+
+    for ( int row = 0; row < spaces.length; row++ )
+      for ( int col = 0; col < spaces[row].length; col++ )
+        assertTrue( spaces[row][col] == -1 );
   }
 }
