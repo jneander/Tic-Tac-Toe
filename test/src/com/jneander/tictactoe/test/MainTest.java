@@ -66,6 +66,17 @@ public class MainTest extends TestCase {
     assertFalse( lastMove.row == 1 && lastMove.col == 2 );
     assertFalse( lastMove.row == 2 && lastMove.col == 1 );
   }
+  
+  public void testComputerAnswersPlayerFirstEdgeMove() {
+    testAllSpacesOpen();
+    
+    game.makePlayerMark( new Mark( 1, 0 ) );
+    game.makeComputerMark();
+    Mark lastMove = game.getLastMove();
+    
+    assertFalse( lastMove.row == 1 && lastMove.col == 0 );
+    assertTrue( lastMove.row == 1 && lastMove.col == 1 );
+  }
 
   private void getGameBoard() {
     gameBoard = game.getGameBoard();
