@@ -24,14 +24,34 @@ public class MainTest extends TestCase {
 
   public void testPlayerCanMakeMark() {
     testAllSpacesOpen();
-    
+
     game.makePlayerMark( 0, 0 );
     getGameBoard();
 
     assertTrue( gameBoard[0][0] == 1 );
   }
 
+  public void testComputerCanMakeMark() {
+    testAllSpacesOpen();
+
+    game.makeComputerMark();
+    getGameBoard();
+
+    assertTrue( xNumberOfMarksHaveBeenMade( 1 ) );
+  }
+  
   private void getGameBoard() {
     gameBoard = game.getGameBoard();
+  }
+
+  private boolean xNumberOfMarksHaveBeenMade( int matchValue ) {
+    int marksMade = 0;
+
+    for ( int row = 0; row < gameBoard.length; row++ )
+      for ( int col = 0; col < gameBoard[row].length; col++ )
+        if ( gameBoard[row][col] != -1 )
+          marksMade++;
+
+    return (marksMade == matchValue);
   }
 }
