@@ -2,7 +2,7 @@ package com.jneander.tictactoe;
 
 public class Game {
   private int gameBoard[][];
-  private Mark lastMove;
+  private Mark lastMark;
   private int playerMarks;
 
   public Game() {
@@ -24,7 +24,7 @@ public class Game {
 
   public void makePlayerMark( Mark mark ) {
     gameBoard[mark.row][mark.col] = 1;
-    lastMove = mark;
+    lastMark = mark;
     playerMarks++;
   }
 
@@ -32,9 +32,9 @@ public class Game {
     Mark mark = new Mark( 1, 1 );
 
     if ( playerMarks == 1 ) {
-      if ( isCornerMark( lastMove ) ) {
+      if ( isCornerMark( lastMark ) ) {
         mark = new Mark( 1, 1 );
-      } else if ( isEdgeMark( lastMove ) ) {
+      } else if ( isEdgeMark( lastMark ) ) {
         mark = new Mark( 1, 1 );
       } else {
         mark = new Mark( 0, 0 );
@@ -42,7 +42,7 @@ public class Game {
     }
 
     gameBoard[mark.row][mark.col] = 0;
-    lastMove = mark;
+    lastMark = mark;
   }
 
   private boolean isCenterMark( Mark mark ) {
@@ -62,7 +62,7 @@ public class Game {
     return (!isCenterMark( mark ) && !isEdgeMark( mark ));
   }
 
-  public Mark getLastMove() {
-    return lastMove;
+  public Mark getLastMark() {
+    return lastMark;
   }
 }
