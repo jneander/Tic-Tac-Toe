@@ -21,13 +21,13 @@ public class MainTest extends TestCase {
 
     for ( int row = 0; row < gameBoard.length; row++ )
       for ( int col = 0; col < gameBoard[row].length; col++ )
-        assertTrue( gameBoard[row][col].markType == MarkType.BLANK );
+        assertTrue( gameBoard[row][col].getType() == MarkType.BLANK );
   }
 
   public void testLastMoveWasMade() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( new Mark( 0, 0, MarkType.PLAYER ) );
+    game.makePlayerMark( 0, 0 );
     Mark lastMark = game.getLastMark();
 
     assertNotNull( lastMark );
@@ -40,10 +40,10 @@ public class MainTest extends TestCase {
   public void testPlayerCanMakeMark() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( new Mark( 0, 0, MarkType.PLAYER ) );
+    game.makePlayerMark( 0, 0 );
     getGameBoard();
 
-    assertTrue( gameBoard[0][0].markType == MarkType.PLAYER );
+    assertTrue( gameBoard[0][0].getType() == MarkType.PLAYER );
     assertTrue( xNumberOfMarksHaveBeenMade( 1 ) );
   }
 
@@ -59,7 +59,7 @@ public class MainTest extends TestCase {
   public void testComputerAnswersPlayerFirstCornerMove() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( new Mark( 0, 0, MarkType.PLAYER ) );
+    game.makePlayerMark( 0, 0 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -71,7 +71,7 @@ public class MainTest extends TestCase {
   public void testComputerAnswersPlayerFirstEdgeMove() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( new Mark( 1, 0, MarkType.PLAYER ) );
+    game.makePlayerMark( 1, 0 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -82,7 +82,7 @@ public class MainTest extends TestCase {
   public void testComputerAnswersPlayerFirstCenterMove() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( new Mark( 1, 1, MarkType.PLAYER ) );
+    game.makePlayerMark( 1, 1 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -93,8 +93,8 @@ public class MainTest extends TestCase {
   public void testComputerBlocksConsecutiveRowPlayerMarks() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( new Mark( 0, 0, MarkType.PLAYER ) );
-    game.makePlayerMark( new Mark( 0, 1, MarkType.PLAYER ) );
+    game.makePlayerMark( 0, 0 );
+    game.makePlayerMark( 0, 1 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -105,8 +105,8 @@ public class MainTest extends TestCase {
   public void testComputerBlocksConsecutiveColPlayerMarks() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( new Mark( 0, 0, MarkType.PLAYER ) );
-    game.makePlayerMark( new Mark( 1, 0, MarkType.PLAYER ) );
+    game.makePlayerMark( 0, 0 );
+    game.makePlayerMark( 1, 0 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -117,8 +117,8 @@ public class MainTest extends TestCase {
   public void testComputerBlocksConsecutiveRightDiagonalPlayerMarks() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( new Mark( 0, 0, MarkType.PLAYER ) );
-    game.makePlayerMark( new Mark( 1, 1, MarkType.PLAYER ) );
+    game.makePlayerMark( 0, 0 );
+    game.makePlayerMark( 1, 1 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -129,8 +129,8 @@ public class MainTest extends TestCase {
   public void testComputerBlocksConsecutiveLeftDiagonalPlayerMarks() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( new Mark( 2, 0, MarkType.PLAYER ) );
-    game.makePlayerMark( new Mark( 1, 1, MarkType.PLAYER ) );
+    game.makePlayerMark( 2, 0 );
+    game.makePlayerMark( 1, 1 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -147,7 +147,7 @@ public class MainTest extends TestCase {
 
     for ( int row = 0; row < gameBoard.length; row++ )
       for ( int col = 0; col < gameBoard[row].length; col++ )
-        if ( gameBoard[row][col].markType != MarkType.BLANK )
+        if ( gameBoard[row][col].getType() != MarkType.BLANK )
           marksMade++;
 
     return (marksMade == matchValue);
