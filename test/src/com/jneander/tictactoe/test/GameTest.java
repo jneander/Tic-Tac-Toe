@@ -6,7 +6,7 @@ import com.jneander.tictactoe.Game;
 import com.jneander.tictactoe.Mark;
 import com.jneander.tictactoe.Mark.MarkType;
 
-public class MainTest extends TestCase {
+public class GameTest extends TestCase {
   private Game game;
   private Mark gameBoard[][];
 
