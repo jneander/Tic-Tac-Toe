@@ -6,6 +6,7 @@ import com.jneander.tictactoe.Game;
 
 public class MainTest extends TestCase {
   private Game game;
+  private int gameBoard[][];
 
   protected void setUp() throws Exception {
     super.setUp();
@@ -14,18 +15,23 @@ public class MainTest extends TestCase {
   }
 
   public void testAllSpacesOpen() {
-    int spaces[][] = game.getGameBoard();
+    getGameBoard();
 
-    for ( int row = 0; row < spaces.length; row++ )
-      for ( int col = 0; col < spaces[row].length; col++ )
-        assertTrue( spaces[row][col] == -1 );
+    for ( int row = 0; row < gameBoard.length; row++ )
+      for ( int col = 0; col < gameBoard[row].length; col++ )
+        assertTrue( gameBoard[row][col] == -1 );
   }
 
   public void testPlayerCanMakeMark() {
     testAllSpacesOpen();
+    
     game.makePlayerMark( 0, 0 );
-    int spaces[][] = game.getGameBoard();
+    getGameBoard();
 
-    assertTrue( spaces[0][0] == 1 );
+    assertTrue( gameBoard[0][0] == 1 );
+  }
+
+  private void getGameBoard() {
+    gameBoard = game.getGameBoard();
   }
 }
