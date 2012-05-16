@@ -9,6 +9,7 @@ import com.jneander.tictactoe.Mark.MarkType;
 public class Game {
   private Mark lastMark;
   private int playerMarks;
+  private int computerMarkCount;
 
   private Mark gameBoard[][];
   private List< Mark[] > winningSets;
@@ -87,10 +88,41 @@ public class Game {
           madeMark = true;
         }
       }
+    } else if ( computerCanFork() ) {
+      if ( gameBoard[0][0].getType() == MarkType.BLANK )
+        nextMark = gameBoard[0][0];
+      else if ( gameBoard[2][0].getType() == MarkType.BLANK )
+        nextMark = gameBoard[2][0];
+      else if ( gameBoard[0][2].getType() == MarkType.BLANK )
+        nextMark = gameBoard[0][2];
+      else
+        nextMark = gameBoard[2][2];
     }
 
     gameBoard[nextMark.row][nextMark.col].setToComputer();
     lastMark = nextMark;
+    computerMarkCount++;
+  }
+
+  private boolean cornersAreMarked() {
+    return gameBoard[0][0].getType() != MarkType.BLANK &&
+        gameBoard[2][0].getType() != MarkType.BLANK &&
+        gameBoard[0][2].getType() != MarkType.BLANK &&
+        gameBoard[2][2].getType() != MarkType.BLANK;
+  }
+
+  private boolean centerIsMarked() {
+    return gameBoard[1][1].getType() != MarkType.BLANK;
+  }
+
+  private boolean computerCanFork() {
+    return (computerMarkCount != 0 && !cornersAreMarked());
+  }
+
+  private boolean setIsEmpty( Mark[] currentSet ) {
+    return currentSet[0].getType() == MarkType.BLANK &&
+        currentSet[1].getType() == MarkType.BLANK &&
+        currentSet[2].getType() == MarkType.BLANK;
   }
 
   private boolean computerMustBlock() {

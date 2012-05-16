@@ -149,6 +149,15 @@ public class MainTest extends TestCase {
     assertTrue( game.isGameOver() );
   }
 
+  public void testComputerWillFork() {
+    game.makeComputerMark();
+    game.makeComputerMark();
+    Mark lastMark = game.getLastMark();
+
+    assertTrue( lastMark.row == 0 || lastMark.row == 2 );
+    assertTrue( lastMark.col == 0 || lastMark.col == 2 );
+  }
+
   private void getGameBoard() {
     gameBoard = game.getGameBoard();
   }
