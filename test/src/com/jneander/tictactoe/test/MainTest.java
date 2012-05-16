@@ -3,6 +3,7 @@ package com.jneander.tictactoe.test;
 import junit.framework.TestCase;
 
 import com.jneander.tictactoe.Game;
+import com.jneander.tictactoe.Mark;
 
 public class MainTest extends TestCase {
   private Game game;
@@ -22,13 +23,27 @@ public class MainTest extends TestCase {
         assertTrue( gameBoard[row][col] == -1 );
   }
 
+  public void testLastMoveWasMade() {
+    testAllSpacesOpen();
+
+    game.makePlayerMark( new Mark( 0, 0 ) );
+    Mark lastMove = game.getLastMove();
+
+    assertNotNull( lastMove );
+    assertNotNull( lastMove.col );
+    assertNotNull( lastMove.row );
+
+    assertTrue( xNumberOfMarksHaveBeenMade( 1 ) );
+  }
+
   public void testPlayerCanMakeMark() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( 0, 0 );
+    game.makePlayerMark( new Mark( 0, 0 ) );
     getGameBoard();
 
     assertTrue( gameBoard[0][0] == 1 );
+    assertTrue( xNumberOfMarksHaveBeenMade( 1 ) );
   }
 
   public void testComputerCanMakeMark() {
@@ -39,7 +54,19 @@ public class MainTest extends TestCase {
 
     assertTrue( xNumberOfMarksHaveBeenMade( 1 ) );
   }
-  
+
+  public void testComputerAnswersPlayerFirstCornerMove() {
+    testAllSpacesOpen();
+
+    game.makePlayerMark( new Mark( 0, 0 ) );
+    game.makeComputerMark();
+    Mark lastMove = game.getLastMove();
+
+    assertFalse( lastMove.row == 0 && lastMove.col == 0 );
+    assertFalse( lastMove.row == 1 && lastMove.col == 2 );
+    assertFalse( lastMove.row == 2 && lastMove.col == 1 );
+  }
+
   private void getGameBoard() {
     gameBoard = game.getGameBoard();
   }
