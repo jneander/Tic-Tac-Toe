@@ -18,8 +18,12 @@ public class Game {
   public int[][] getGameBoard() {
     return spaces;
   }
-  
+
   public void makePlayerMark( int row, int col ) {
     spaces[row][col] = 1;
+  }
+
+  public void makeComputerMark() {
+    spaces[0][0] = 0;
   }
 }
