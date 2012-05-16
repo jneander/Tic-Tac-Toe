@@ -90,6 +90,18 @@ public class MainTest extends TestCase {
     assertTrue( lastMark.row == 0 && lastMark.col == 0 );
   }
 
+  public void testComputerBlocksConsecutiveRowPlayerMarks() {
+    testAllSpacesOpen();
+
+    game.makePlayerMark( new Mark( 0, 0, MarkType.PLAYER ) );
+    game.makePlayerMark( new Mark( 0, 1, MarkType.PLAYER ) );
+    game.makeComputerMark();
+    Mark lastMark = game.getLastMark();
+
+    assertTrue( lastMark.row == 0 );
+    assertTrue( lastMark.col == 2 );
+  }
+
   private void getGameBoard() {
     gameBoard = game.getGameBoard();
   }
