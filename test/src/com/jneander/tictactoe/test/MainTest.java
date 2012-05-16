@@ -8,7 +8,7 @@ import com.jneander.tictactoe.Mark.MarkType;
 
 public class MainTest extends TestCase {
   private Game game;
-  private MarkType gameBoard[][];
+  private Mark gameBoard[][];
 
   protected void setUp() throws Exception {
     super.setUp();
@@ -21,7 +21,7 @@ public class MainTest extends TestCase {
 
     for ( int row = 0; row < gameBoard.length; row++ )
       for ( int col = 0; col < gameBoard[row].length; col++ )
-        assertTrue( gameBoard[row][col] == MarkType.BLANK );
+        assertTrue( gameBoard[row][col].markType == MarkType.BLANK );
   }
 
   public void testLastMoveWasMade() {
@@ -43,7 +43,7 @@ public class MainTest extends TestCase {
     game.makePlayerMark( new Mark( 0, 0, MarkType.PLAYER ) );
     getGameBoard();
 
-    assertTrue( gameBoard[0][0] == MarkType.PLAYER );
+    assertTrue( gameBoard[0][0].markType == MarkType.PLAYER );
     assertTrue( xNumberOfMarksHaveBeenMade( 1 ) );
   }
 
@@ -147,7 +147,7 @@ public class MainTest extends TestCase {
 
     for ( int row = 0; row < gameBoard.length; row++ )
       for ( int col = 0; col < gameBoard[row].length; col++ )
-        if ( gameBoard[row][col] != MarkType.BLANK )
+        if ( gameBoard[row][col].markType != MarkType.BLANK )
           marksMade++;
 
     return (marksMade == matchValue);
