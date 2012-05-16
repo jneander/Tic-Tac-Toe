@@ -32,6 +32,7 @@ public class Game {
 
   public void makeComputerMark() {
     Mark mark = new Mark( 1, 1, MarkType.COMPUTER );
+    boolean madeMark = false;
 
     if ( playerMarks == 1 ) {
       if ( isCornerMark( lastMark ) ) {
@@ -42,14 +43,29 @@ public class Game {
         mark = new Mark( 0, 0, MarkType.COMPUTER );
       }
     } else {
-      for ( int row = 0; row < gameBoard.length; row++ ) {
+      for ( int row = 0; (row < gameBoard.length) && !madeMark; row++ ) {
         if ( setNeedsBlock( gameBoard[row] ) )
           mark = new Mark( row, findBlockPosition( gameBoard[row] ), MarkType.COMPUTER );
       }
+      for ( int col = 0; (col < gameBoard[0].length) && !madeMark; col++ ) {
+        MarkType colMarks[] = getGameBoardColumn(col);
+        if ( setNeedsBlock( colMarks ) )
+          mark = new Mark( findBlockPosition( colMarks ), col, MarkType.COMPUTER );
+      }
+
     }
 
     gameBoard[mark.row][mark.col] = mark.markType;
     lastMark = mark;
+  }
+
+  private MarkType[] getGameBoardColumn( int col ) {
+    MarkType marks[] = new MarkType[gameBoard.length];
+    
+    for (int row = 0; row < gameBoard.length; row++)
+      marks[row] = gameBoard[row][col];
+    
+    return marks;
   }
 
   private boolean setNeedsBlock( MarkType marks[] ) {
