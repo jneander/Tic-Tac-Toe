@@ -20,4 +20,12 @@ public class MainTest extends TestCase {
       for ( int col = 0; col < spaces[row].length; col++ )
         assertTrue( spaces[row][col] == -1 );
   }
+
+  public void testPlayerCanMakeMark() {
+    testAllSpacesOpen();
+    game.makePlayerMark( 0, 0 );
+    int spaces[][] = game.getGameBoard();
+
+    assertTrue( spaces[0][0] == 1 );
+  }
 }
