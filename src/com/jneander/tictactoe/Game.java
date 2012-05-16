@@ -67,7 +67,6 @@ public class Game {
 
   public void makeComputerMark() {
     Mark nextMark = gameBoard[0][0];
-    boolean madeMark = false;
 
     makeWinningSetList();
 
@@ -78,39 +77,64 @@ public class Game {
         nextMark = gameBoard[1][1];
       }
     } else if ( computerMustBlock() ) {
-      Iterator< Mark[] > winningSetsIterator = winningSets.iterator();
-
-      while ( winningSetsIterator.hasNext() && !madeMark ) {
-        Mark[] currentMarkSet = winningSetsIterator.next();
-
-        if ( setNeedsBlock( currentMarkSet ) ) {
-          nextMark = findMarkForBlock( currentMarkSet );
-          madeMark = true;
-        }
-      }
+      nextMark = getBlockMark();
     } else if ( computerShouldBlockAndFork() ) {
-      if ( isUnion( gameBoard[0][0] ) )
-        nextMark = gameBoard[0][0];
-      else if ( isUnion( gameBoard[0][2] ) )
-        nextMark = gameBoard[0][2];
-      else if ( isUnion( gameBoard[2][0] ) )
-        nextMark = gameBoard[2][0];
-      else
-        nextMark = gameBoard[2][2];
+      nextMark = getUnionMark();
     } else if ( computerCanFork() ) {
-      if ( gameBoard[0][0].getType() == MarkType.BLANK )
-        nextMark = gameBoard[0][0];
-      else if ( gameBoard[2][0].getType() == MarkType.BLANK )
-        nextMark = gameBoard[2][0];
-      else if ( gameBoard[0][2].getType() == MarkType.BLANK )
-        nextMark = gameBoard[0][2];
-      else
-        nextMark = gameBoard[2][2];
+      nextMark = getForkMark();
     }
 
     gameBoard[nextMark.row][nextMark.col].setToComputer();
     lastMark = nextMark;
     computerMarkCount++;
+  }
+
+  private Mark getBlockMark() {
+    Mark nextMark = gameBoard[0][0];
+    boolean madeMark = false;
+
+    Iterator< Mark[] > winningSetsIterator = winningSets.iterator();
+
+    while ( winningSetsIterator.hasNext() && !madeMark ) {
+      Mark[] currentMarkSet = winningSetsIterator.next();
+
+      if ( setNeedsBlock( currentMarkSet ) ) {
+        nextMark = findMarkForBlock( currentMarkSet );
+        madeMark = true;
+      }
+    }
+
+    return nextMark;
+  }
+
+  private Mark getForkMark() {
+    Mark nextMark;
+
+    if ( gameBoard[0][0].getType() == MarkType.BLANK )
+      nextMark = gameBoard[0][0];
+    else if ( gameBoard[2][0].getType() == MarkType.BLANK )
+      nextMark = gameBoard[2][0];
+    else if ( gameBoard[0][2].getType() == MarkType.BLANK )
+      nextMark = gameBoard[0][2];
+    else
+      nextMark = gameBoard[2][2];
+
+    return nextMark;
+  }
+
+  private Mark getUnionMark() {
+    Mark nextMark;
+
+    if ( isUnion( gameBoard[0][0] ) )
+      nextMark = gameBoard[0][0];
+    else if ( isUnion( gameBoard[0][2] ) )
+      nextMark = gameBoard[0][2];
+    else if ( isUnion( gameBoard[2][0] ) )
+      nextMark = gameBoard[2][0];
+    else
+      nextMark = gameBoard[2][2];
+
+    return nextMark;
   }
 
   private boolean computerShouldBlockAndFork() {
@@ -155,12 +179,6 @@ public class Game {
 
   private boolean computerCanFork() {
     return (computerMarkCount != 0 && !cornersAreMarked());
-  }
-
-  private boolean setIsEmpty( Mark[] currentSet ) {
-    return currentSet[0].getType() == MarkType.BLANK &&
-        currentSet[1].getType() == MarkType.BLANK &&
-        currentSet[2].getType() == MarkType.BLANK;
   }
 
   private boolean computerMustBlock() {
