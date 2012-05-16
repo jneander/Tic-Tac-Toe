@@ -34,6 +34,8 @@ public class Game {
     if ( playerMarks == 1 ) {
       if ( isCornerMark(lastMove) ) {
         mark = new Mark(1,1);
+      } else if ( isEdgeMark(lastMove)) {
+        mark = new Mark(1,1);
       }
     }
 
