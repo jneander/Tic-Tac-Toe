@@ -158,6 +158,17 @@ public class MainTest extends TestCase {
     assertTrue( lastMark.col == 0 || lastMark.col == 2 );
   }
 
+  public void testComputerWillBlockAndFork() {
+    game.makePlayerMark( 0, 1 );
+    game.makeComputerMark();
+    game.makePlayerMark( 2, 2 );
+    game.makeComputerMark();
+    Mark lastMark = game.getLastMark();
+
+    assertTrue( lastMark.row == 0 );
+    assertTrue( lastMark.col == 2 );
+  }
+
   private void getGameBoard() {
     gameBoard = game.getGameBoard();
   }
@@ -171,5 +182,27 @@ public class MainTest extends TestCase {
           marksMade++;
 
     return (marksMade == matchValue);
+  }
+
+  private void printGameBoard() {
+    getGameBoard();
+
+    for ( int row = 0; row < 3; row++ ) {
+      System.out.printf( " %c | %c | %c\n",
+          getMarkCharacter( gameBoard[row][0] ),
+          getMarkCharacter( gameBoard[row][1] ),
+          getMarkCharacter( gameBoard[row][2] )
+          );
+      if ( row != 2 )
+        System.out.println( "------------" );
+    }
+  }
+
+  private char getMarkCharacter( Mark mark ) {
+    char character = mark.getType() == MarkType.COMPUTER ? 'X' : ' ';
+    character = mark.getType() == MarkType.PLAYER ? 'O' : character;
+
+    return character;
+
   }
 }

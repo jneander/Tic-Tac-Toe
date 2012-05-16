@@ -88,6 +88,15 @@ public class Game {
           madeMark = true;
         }
       }
+    } else if ( computerShouldBlockAndFork() ) {
+      if ( isUnion( gameBoard[0][0] ) )
+        nextMark = gameBoard[0][0];
+      else if ( isUnion( gameBoard[0][2] ) )
+        nextMark = gameBoard[0][2];
+      else if ( isUnion( gameBoard[2][0] ) )
+        nextMark = gameBoard[2][0];
+      else
+        nextMark = gameBoard[2][2];
     } else if ( computerCanFork() ) {
       if ( gameBoard[0][0].getType() == MarkType.BLANK )
         nextMark = gameBoard[0][0];
@@ -102,6 +111,35 @@ public class Game {
     gameBoard[nextMark.row][nextMark.col].setToComputer();
     lastMark = nextMark;
     computerMarkCount++;
+  }
+
+  private boolean computerShouldBlockAndFork() {
+    boolean blockAndFork = false;
+
+    if ( !cornersAreMarked() )
+      blockAndFork = (isUnion( gameBoard[0][0] ) || isUnion( gameBoard[0][2] )
+          || isUnion( gameBoard[2][0] ) || isUnion( gameBoard[2][2] ));
+
+    return blockAndFork;
+  }
+
+  private boolean isUnion( Mark mark ) {
+    boolean rowHasPlayerMark = false;
+    boolean colHasPlayerMark = false;
+    boolean noComputerMarks = true;
+
+    if ( mark.getType() == MarkType.BLANK ) {
+      for ( int row = 0; row < 3; row++ ) {
+        rowHasPlayerMark |= gameBoard[row][mark.col].getType() == MarkType.PLAYER;
+        noComputerMarks &= gameBoard[row][mark.col].getType() != MarkType.COMPUTER;
+      }
+      for ( int col = 0; col < 3; col++ ) {
+        colHasPlayerMark |= gameBoard[mark.row][col].getType() == MarkType.PLAYER;
+        noComputerMarks &= gameBoard[mark.row][col].getType() != MarkType.COMPUTER;
+      }
+    }
+
+    return (rowHasPlayerMark && colHasPlayerMark && noComputerMarks);
   }
 
   private boolean cornersAreMarked() {
