@@ -93,35 +93,14 @@ public class Game {
     lastMark = nextMark;
   }
 
-  private Mark[] getGameBoardColumn( int col ) {
-    Mark marks[] = new Mark[gameBoard.length];
-
-    for ( int row = 0; row < gameBoard.length; row++ )
-      marks[row] = gameBoard[row][col];
-
-    return marks;
-  }
-
   private boolean computerMustBlock() {
     boolean blockNeeded = false;
 
-    for ( int row = 0; (row < gameBoard.length) && !blockNeeded; row++ ) {
-      blockNeeded = setNeedsBlock( gameBoard[row] );
-    }
+    Iterator< Mark[] > winningSetsIterator = winningSets.iterator();
 
-    for ( int col = 0; (col < gameBoard[0].length) && !blockNeeded; col++ ) {
-      Mark column[] = getGameBoardColumn( col );
-      blockNeeded = setNeedsBlock( column );
-    }
-
-    if ( !blockNeeded ) {
-      Mark diagMarks[] = new Mark[] { gameBoard[0][0], gameBoard[1][1], gameBoard[2][2] };
-      blockNeeded = setNeedsBlock( diagMarks );
-    }
-
-    if ( !blockNeeded ) {
-      Mark diagMarks[] = new Mark[] { gameBoard[0][2], gameBoard[1][1], gameBoard[2][0] };
-      blockNeeded = setNeedsBlock( diagMarks );
+    while ( winningSetsIterator.hasNext() && !blockNeeded ) {
+      Mark[] currentMarkSet = winningSetsIterator.next();
+      blockNeeded = setNeedsBlock( currentMarkSet );
     }
 
     return blockNeeded;
