@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:padding="20dp" >
 
     <com.jneander.tictactoe.ui.GameView
-        android:layout_width="wrap_content"
+        android:id="@+id/game_view"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp" />
+        android:layout_alignParentTop="true" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/game_message"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/button_layout"
+        android:layout_below="@id/game_view"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <LinearLayout
+        android:id="@id/button_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_make_mark"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:padding="15dp"
+            android:text="@string/button_make_mark" />
+
+        <Button
+            android:id="@+id/button_new_game"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:padding="15dp"
+            android:text="@string/button_new_game" />
+    </LinearLayout>
+
+</RelativeLayout>

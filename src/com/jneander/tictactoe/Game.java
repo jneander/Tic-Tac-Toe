@@ -46,10 +46,13 @@ public class Game {
     winningSets.add( rightDiagonal );
   }
 
-  private void resetGame() {
+  public void resetGame() {
     for ( int row = 0; row < gameBoard.length; row++ )
-      for ( int col = 0; col < gameBoard[row].length; col++ )
-        gameBoard[row][col] = new Mark( row, col );
+      for ( int col = 0; col < gameBoard[row].length; col++ ) {
+        if ( gameBoard[row][col] == null )
+          gameBoard[row][col] = new Mark( row, col );
+        gameBoard[row][col].setToBlank();
+      }
 
     playerMarkCount = 0;
     computerMarkCount = 0;
@@ -70,7 +73,11 @@ public class Game {
     return this.gameOver;
   }
 
-  public void makePlayerMark( int row, int col ) {
+  public boolean positionIsMarked( int row, int col ) {
+    return (gameBoard[row][col].getType() != MarkType.BLANK);
+  }
+
+  public void makePlayerMarkAtPosition( int row, int col ) {
     playerMarkCount++;
     makeMark( row, col, MarkType.PLAYER );
   }

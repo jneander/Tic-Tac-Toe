@@ -27,7 +27,7 @@ public class GameTest extends TestCase {
   public void testLastMarkWasMade() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( 0, 0 );
+    game.makePlayerMarkAtPosition( 0, 0 );
     Mark lastMark = game.getLastMark();
 
     assertNotNull( lastMark );
@@ -40,7 +40,7 @@ public class GameTest extends TestCase {
   public void testPlayerCanMakeMark() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( 0, 0 );
+    game.makePlayerMarkAtPosition( 0, 0 );
     getGameBoard();
 
     assertTrue( gameBoard[0][0].getType() == MarkType.PLAYER );
@@ -59,7 +59,7 @@ public class GameTest extends TestCase {
   public void testComputerAnswersPlayerFirstCornerMark() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( 0, 0 );
+    game.makePlayerMarkAtPosition( 0, 0 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -71,7 +71,7 @@ public class GameTest extends TestCase {
   public void testComputerAnswersPlayerFirstEdgeMark() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( 1, 0 );
+    game.makePlayerMarkAtPosition( 1, 0 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -82,7 +82,7 @@ public class GameTest extends TestCase {
   public void testComputerAnswersPlayerFirstCenterMark() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( 1, 1 );
+    game.makePlayerMarkAtPosition( 1, 1 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -93,8 +93,8 @@ public class GameTest extends TestCase {
   public void testComputerBlocksConsecutiveRowPlayerMarks() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( 0, 0 );
-    game.makePlayerMark( 0, 1 );
+    game.makePlayerMarkAtPosition( 0, 0 );
+    game.makePlayerMarkAtPosition( 0, 1 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -105,8 +105,8 @@ public class GameTest extends TestCase {
   public void testComputerBlocksConsecutiveColPlayerMarks() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( 0, 0 );
-    game.makePlayerMark( 1, 0 );
+    game.makePlayerMarkAtPosition( 0, 0 );
+    game.makePlayerMarkAtPosition( 1, 0 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -117,8 +117,8 @@ public class GameTest extends TestCase {
   public void testComputerBlocksConsecutiveRightDiagonalPlayerMarks() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( 0, 0 );
-    game.makePlayerMark( 1, 1 );
+    game.makePlayerMarkAtPosition( 0, 0 );
+    game.makePlayerMarkAtPosition( 1, 1 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -129,8 +129,8 @@ public class GameTest extends TestCase {
   public void testComputerBlocksConsecutiveLeftDiagonalPlayerMarks() {
     testAllSpacesOpen();
 
-    game.makePlayerMark( 2, 0 );
-    game.makePlayerMark( 1, 1 );
+    game.makePlayerMarkAtPosition( 2, 0 );
+    game.makePlayerMarkAtPosition( 1, 1 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -139,12 +139,12 @@ public class GameTest extends TestCase {
   }
 
   public void testGameOver() {
-    game.makePlayerMark( 0, 0 );
-    game.makePlayerMark( 1, 0 );
+    game.makePlayerMarkAtPosition( 0, 0 );
+    game.makePlayerMarkAtPosition( 1, 0 );
 
     assertFalse( game.isGameOver() );
 
-    game.makePlayerMark( 2, 0 );
+    game.makePlayerMarkAtPosition( 2, 0 );
 
     assertTrue( game.isGameOver() );
   }
@@ -159,9 +159,9 @@ public class GameTest extends TestCase {
   }
 
   public void testComputerWillBlockAndFork() {
-    game.makePlayerMark( 0, 1 );
+    game.makePlayerMarkAtPosition( 0, 1 );
     game.makeComputerMark();
-    game.makePlayerMark( 2, 2 );
+    game.makePlayerMarkAtPosition( 2, 2 );
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
 
@@ -203,7 +203,7 @@ public class GameTest extends TestCase {
                   if ( gameBoard[row][col].getType() != MarkType.BLANK )
                     terminate = true;
                   else
-                    game.makePlayerMark( row, col );
+                    game.makePlayerMarkAtPosition( row, col );
                 }
               }
 
@@ -240,7 +240,7 @@ public class GameTest extends TestCase {
                   if ( gameBoard[row][col].getType() != MarkType.BLANK )
                     terminate = true;
                   else
-                    game.makePlayerMark( row, col );
+                    game.makePlayerMarkAtPosition( row, col );
 
                   if ( !game.isGameOver() )
                     game.makeComputerMark();

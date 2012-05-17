@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, MainMenu!</string>
     <string name="app_name">Tic Tac Toe</string>
+    <string name="tie_message">Game Over</string>
+    <string name="lose_message">You Lose!</string>
+
+    <string name="button_make_mark">Mark it!</string>
+    <string name="button_new_game">New Game</string>
 
 </resources>
