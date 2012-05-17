@@ -14,7 +14,7 @@ public class GameView extends View {
   private float height;
   private int selectedRow;
   private int selectedCol;
-  private final Rect selRect = new Rect();
+  private final Rect selectedRect = new Rect();
 
   public GameView( Context context ) {
     super( context );
@@ -40,7 +40,7 @@ public class GameView extends View {
   protected void onSizeChanged( int w, int h, int oldw, int oldh ) {
     width = w / 3f;
     height = h / 3f;
-    getRect( selectedRow, selectedCol, selRect );
+    getRect( selectedRow, selectedCol, selectedRect );
     super.onSizeChanged( w, h, oldw, oldh );
   }
 
@@ -86,8 +86,10 @@ public class GameView extends View {
   }
 
   private void select( int row, int col ) {
-    invalidate( selRect );
+    invalidate( selectedRect );
     selectedRow = Math.min( Math.max( row, 0 ), 2 );
     selectedCol = Math.min( Math.max( col, 0 ), 2 );
+    getRect( selectedRow, selectedCol, selectedRect );
+    invalidate( selectedRect );
   }
 }
