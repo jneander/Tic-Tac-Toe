@@ -1,4 +1,4 @@
-package com.jneander.tictactoe;
+package com.jneander.tictactoe.main;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,7 +7,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.jneander.tictactoe.Mark.MarkType;
+import com.jneander.tictactoe.R;
+import com.jneander.tictactoe.R.id;
+import com.jneander.tictactoe.R.layout;
+import com.jneander.tictactoe.R.string;
+import com.jneander.tictactoe.game.Game;
+import com.jneander.tictactoe.game.Mark;
+import com.jneander.tictactoe.game.Mark.MarkType;
 import com.jneander.tictactoe.ui.GameView;
 
 public class Main extends Activity {

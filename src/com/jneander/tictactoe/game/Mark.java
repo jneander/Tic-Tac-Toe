@@ -1,4 +1,4 @@
-package com.jneander.tictactoe;
+package com.jneander.tictactoe.game;
 
 public class Mark {
   public static enum MarkType {

@@ -2,9 +2,9 @@ package com.jneander.tictactoe.test;
 
 import junit.framework.TestCase;
 
-import com.jneander.tictactoe.Game;
-import com.jneander.tictactoe.Mark;
-import com.jneander.tictactoe.Mark.MarkType;
+import com.jneander.tictactoe.game.Game;
+import com.jneander.tictactoe.game.Mark;
+import com.jneander.tictactoe.game.Mark.MarkType;
 
 public class GameTest extends TestCase {
   private Game game;

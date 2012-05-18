@@ -10,8 +10,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.jneander.tictactoe.Mark;
-import com.jneander.tictactoe.Mark.MarkType;
+import com.jneander.tictactoe.game.Mark;
+import com.jneander.tictactoe.game.Mark.MarkType;
 
 public class GameView extends View {
   private float squareWidth;

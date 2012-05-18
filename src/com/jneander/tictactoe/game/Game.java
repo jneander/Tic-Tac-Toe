@@ -1,10 +1,10 @@
-package com.jneander.tictactoe;
+package com.jneander.tictactoe.game;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.jneander.tictactoe.Mark.MarkType;
+import com.jneander.tictactoe.game.Mark.MarkType;
 
 public class Game {
   private Mark gameBoard[][];
