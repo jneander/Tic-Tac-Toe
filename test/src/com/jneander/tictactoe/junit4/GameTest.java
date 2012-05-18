@@ -1,22 +1,27 @@
-package com.jneander.tictactoe.test;
+package com.jneander.tictactoe.junit4;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import com.jneander.tictactoe.game.Game;
 import com.jneander.tictactoe.game.Mark;
 import com.jneander.tictactoe.game.Mark.MarkType;
 
-public class GameTest extends TestCase {
+public class GameTest {
   private Game game;
   private Mark gameBoard[][];
 
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     game = new Game();
   }
 
-  public void testAllSpacesOpen() {
+  @Test
+  public void allSpacesAreOpen() {
     getGameBoard();
 
     for ( int row = 0; row < gameBoard.length; row++ )
@@ -24,8 +29,9 @@ public class GameTest extends TestCase {
         assertTrue( gameBoard[row][col].getType() == MarkType.BLANK );
   }
 
-  public void testLastMarkWasMade() {
-    testAllSpacesOpen();
+  @Test
+  public void lastMarkWasMade() {
+    allSpacesAreOpen();
 
     game.makePlayerMarkAtPosition( 0, 0 );
     Mark lastMark = game.getLastMark();
@@ -37,8 +43,9 @@ public class GameTest extends TestCase {
     assertTrue( xNumberOfMarksHaveBeenMade( 1 ) );
   }
 
-  public void testPlayerCanMakeMark() {
-    testAllSpacesOpen();
+  @Test
+  public void playerCanMakeMark() {
+    allSpacesAreOpen();
 
     game.makePlayerMarkAtPosition( 0, 0 );
     getGameBoard();
@@ -47,8 +54,9 @@ public class GameTest extends TestCase {
     assertTrue( xNumberOfMarksHaveBeenMade( 1 ) );
   }
 
-  public void testComputerCanMakeMark() {
-    testAllSpacesOpen();
+  @Test
+  public void computerCanMakeMark() {
+    allSpacesAreOpen();
 
     game.makeComputerMark();
     getGameBoard();
@@ -56,8 +64,9 @@ public class GameTest extends TestCase {
     assertTrue( xNumberOfMarksHaveBeenMade( 1 ) );
   }
 
-  public void testComputerAnswersPlayerFirstCornerMark() {
-    testAllSpacesOpen();
+  @Test
+  public void computerMarksCenterAfterPlayerMarksCornerFirst() {
+    allSpacesAreOpen();
 
     game.makePlayerMarkAtPosition( 0, 0 );
     game.makeComputerMark();
@@ -68,8 +77,9 @@ public class GameTest extends TestCase {
     assertFalse( lastMark.row == 2 && lastMark.col == 1 );
   }
 
-  public void testComputerAnswersPlayerFirstEdgeMark() {
-    testAllSpacesOpen();
+  @Test
+  public void computerMarksCenterAfterPlayerMarksEdgeFirst() {
+    allSpacesAreOpen();
 
     game.makePlayerMarkAtPosition( 1, 0 );
     game.makeComputerMark();
@@ -79,8 +89,9 @@ public class GameTest extends TestCase {
     assertTrue( lastMark.row == 1 && lastMark.col == 1 );
   }
 
-  public void testComputerAnswersPlayerFirstCenterMark() {
-    testAllSpacesOpen();
+  @Test
+  public void computerMarksCornerAfterPlayerMarksCenterFirst() {
+    allSpacesAreOpen();
 
     game.makePlayerMarkAtPosition( 1, 1 );
     game.makeComputerMark();
@@ -90,8 +101,9 @@ public class GameTest extends TestCase {
     assertTrue( lastMark.row == 0 && lastMark.col == 0 );
   }
 
-  public void testComputerBlocksConsecutiveRowPlayerMarks() {
-    testAllSpacesOpen();
+  @Test
+  public void computerBlocksConsecutiveRowPlayerMarks() {
+    allSpacesAreOpen();
 
     game.makePlayerMarkAtPosition( 0, 0 );
     game.makePlayerMarkAtPosition( 0, 1 );
@@ -102,8 +114,9 @@ public class GameTest extends TestCase {
     assertTrue( lastMark.col == 2 );
   }
 
-  public void testComputerBlocksConsecutiveColPlayerMarks() {
-    testAllSpacesOpen();
+  @Test
+  public void computerBlocksConsecutiveColPlayerMarks() {
+    allSpacesAreOpen();
 
     game.makePlayerMarkAtPosition( 0, 0 );
     game.makePlayerMarkAtPosition( 1, 0 );
@@ -114,8 +127,9 @@ public class GameTest extends TestCase {
     assertTrue( lastMark.col == 0 );
   }
 
-  public void testComputerBlocksConsecutiveRightDiagonalPlayerMarks() {
-    testAllSpacesOpen();
+  @Test
+  public void computerBlocksConsecutiveRightDiagonalPlayerMarks() {
+    allSpacesAreOpen();
 
     game.makePlayerMarkAtPosition( 0, 0 );
     game.makePlayerMarkAtPosition( 1, 1 );
@@ -126,8 +140,9 @@ public class GameTest extends TestCase {
     assertTrue( lastMark.col == 2 );
   }
 
-  public void testComputerBlocksConsecutiveLeftDiagonalPlayerMarks() {
-    testAllSpacesOpen();
+  @Test
+  public void computerBlocksConsecutiveLeftDiagonalPlayerMarks() {
+    allSpacesAreOpen();
 
     game.makePlayerMarkAtPosition( 2, 0 );
     game.makePlayerMarkAtPosition( 1, 1 );
@@ -138,7 +153,8 @@ public class GameTest extends TestCase {
     assertTrue( lastMark.col == 2 );
   }
 
-  public void testGameOver() {
+  @Test
+  public void gameIsOver() {
     game.makePlayerMarkAtPosition( 0, 0 );
     game.makePlayerMarkAtPosition( 1, 0 );
 
@@ -149,7 +165,8 @@ public class GameTest extends TestCase {
     assertTrue( game.isGameOver() );
   }
 
-  public void testComputerWillFork() {
+  @Test
+  public void computerWillFork() {
     game.makeComputerMark();
     game.makeComputerMark();
     Mark lastMark = game.getLastMark();
@@ -158,7 +175,8 @@ public class GameTest extends TestCase {
     assertTrue( lastMark.col == 0 || lastMark.col == 2 );
   }
 
-  public void testComputerWillBlockAndFork() {
+  @Test
+  public void computerWillBlockAndFork() {
     game.makePlayerMarkAtPosition( 0, 1 );
     game.makeComputerMark();
     game.makePlayerMarkAtPosition( 2, 2 );
@@ -169,7 +187,8 @@ public class GameTest extends TestCase {
     assertTrue( lastMark.col == 2 );
   }
 
-  public void testComputerWillMakeWinningMark() {
+  @Test
+  public void computerWillMakeWinningMark() {
     game.makeComputerMark();
     game.makeComputerMark();
     game.makeComputerMark();
@@ -179,7 +198,8 @@ public class GameTest extends TestCase {
     assertTrue( lastMark.col == 2 );
   }
 
-  public void testComputerWillNeverLoseWhenGoingFirst() {
+  @Test
+  public void computerWillNeverLoseWhenGoingFirst() {
     int markIndices[] = new int[4];
     int runCount = 0;
 
@@ -218,6 +238,7 @@ public class GameTest extends TestCase {
     assertTrue( runCount == 6561 );
   }
 
+  @Test
   public void testComputerWillNeverLoseWhenGoingSecond() {
     int markIndices[] = new int[5];
     int runCount = 0;
