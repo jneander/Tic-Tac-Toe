@@ -20,8 +20,16 @@ public class BoardTest {
   public void boardAcceptsMark() {
     board.addMark( 0, Mark2.COMPUTER );
     assertTrue( board.getAvailableSpaces().length == 8 );
-
     assertTrue( board.getMarkAtIndex( 0 ) == Mark2.COMPUTER );
+  }
+
+  @Test
+  public void boardErasesMark() {
+    board.addMark( 0, Mark2.COMPUTER );
+    assertTrue( board.getMarkAtIndex( 0 ) == Mark2.COMPUTER );
+    board.eraseMark( 0 );
+    assertFalse( board.getMarkAtIndex( 0 ) == Mark2.COMPUTER );
+    assertTrue( board.getMarkAtIndex( 0 ) == Mark2.BLANK );
   }
 
   @Test
@@ -33,13 +41,13 @@ public class BoardTest {
     board.addMark( 2, Mark2.COMPUTER );
     assertTrue( board.hasWinningSolution() );
   }
-  
+
   @Test
   public void boardCanFindWinningMark() {
     board.addMark( 0, Mark2.COMPUTER );
     board.addMark( 1, Mark2.COMPUTER );
     board.addMark( 2, Mark2.COMPUTER );
-    
+
     assertTrue( board.hasWinningSolution() );
     assertTrue( board.getWinningMark() == Mark2.COMPUTER );
   }

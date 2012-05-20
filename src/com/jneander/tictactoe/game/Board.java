@@ -35,6 +35,13 @@ public class Board {
     }
   }
 
+  public void eraseMark( int spaceIndex ) {
+    if ( gameBoard[spaceIndex] != Mark2.BLANK ) {
+      gameBoard[spaceIndex] = Mark2.BLANK;
+      blankSpaces++;
+    }
+  }
+
   public int[] getAvailableSpaces() {
     int spaces[] = new int[blankSpaces];
     int spacesIndex = 0;
@@ -59,7 +66,7 @@ public class Board {
 
     return solutionFound;
   }
-  
+
   public Mark2 getWinningMark() {
     return this.winningMark;
   }
