@@ -1,6 +1,6 @@
 package com.jneander.tictactoe.junit4;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,17 @@ public class BoardTest {
   public void boardAcceptsMark() {
     board.addMark( 0, Mark2.COMPUTER );
     assertTrue( board.getAvailableSpaces().length == 8 );
-   
+
     assertTrue( board.getMarkAtIndex( 0 ) == Mark2.COMPUTER );
+  }
+
+  @Test
+  public void boardCanDetectWinningSolution() {
+    board.addMark( 0, Mark2.COMPUTER );
+    board.addMark( 1, Mark2.COMPUTER );
+    assertFalse( board.hasWinningSolution() );
+
+    board.addMark( 2, Mark2.COMPUTER );
+    assertTrue( board.hasWinningSolution() );
   }
 }
