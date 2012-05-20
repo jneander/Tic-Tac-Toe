@@ -59,6 +59,10 @@ public class Board {
 
     return solutionFound;
   }
+  
+  public Mark2 getWinningMark() {
+    return this.winningMark;
+  }
 
   private void checkSpacesForWinningSolution( int first, int second, int third ) {
     if ( gameBoard[first] == gameBoard[second] && gameBoard[third] == gameBoard[first]
