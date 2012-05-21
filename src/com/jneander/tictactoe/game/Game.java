@@ -59,7 +59,7 @@ public class Game {
     if ( board.hasWinningSolution() )
       score = ((board.getWinningMark() == Mark.COMPUTER) ? 1 : -1);
     else if ( availableSpaces.length != 0 ) {
-      for ( int availableIndex = 0; availableIndex < availableSpaces.length; availableIndex++ ) {
+      for ( int availableIndex = 0; availableIndex < availableSpaces.length && score != 1; availableIndex++ ) {
         int nextScore = getChildBoardScore( availableSpaces[availableIndex] );
 
         if ( nextScore > score || availableIndex == 0 ) {

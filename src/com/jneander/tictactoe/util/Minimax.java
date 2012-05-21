@@ -12,8 +12,9 @@ public class Minimax {
       score = (board.getWinningMark() == Mark.COMPUTER) ? 1 : -1;
     else if ( availableSpaces.length != 0 ) {
       Mark nextMark = (currentMark == Mark.COMPUTER) ? Mark.PLAYER : Mark.COMPUTER;
+      int bestValue = (currentMark == Mark.COMPUTER) ? 1 : -1;
 
-      for ( int availableIndex = 0; availableIndex < availableSpaces.length; availableIndex++ ) {
+      for ( int availableIndex = 0; availableIndex < availableSpaces.length && score != bestValue; availableIndex++ ) {
         board.addMark( availableSpaces[availableIndex], currentMark );
         int nextScore = minimax( board, nextMark );
         board.eraseMark( availableSpaces[availableIndex] );

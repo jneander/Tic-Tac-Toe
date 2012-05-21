@@ -30,7 +30,7 @@ public class MinimaxTest {
     assertTrue( bestIndex == 6 );
   }
 
-  @Ignore( "Only run if time permitting; takes about 5 minutes" )
+  @Ignore( "Only run if time permitting; takes about 30 seconds" )
   @Test
   public void computerNeverLosesWhenGoingFirst() {
     int markIndices[] = new int[4];
@@ -66,7 +66,7 @@ public class MinimaxTest {
     }
   }
 
-  @Ignore( "Only run if time permitting; takes about 5 minutes" )
+  @Ignore( "Only run if time permitting; takes about 15 seconds" )
   @Test
   public void computerNeverLosesWhenGoingSecond() {
     int markIndices[] = new int[5];
