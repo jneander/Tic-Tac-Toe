@@ -5,7 +5,7 @@ import com.jneander.tictactoe.game.Mark2;
 
 public class Minimax {
   public static int minimax( Board board, Mark2 currentMark ) {
-    int score = (currentMark == Mark2.COMPUTER) ? -1 : 1;
+    int score = 0;
     int[] availableSpaces = board.getAvailableSpaces();
 
     if ( board.hasWinningSolution() )
@@ -19,7 +19,8 @@ public class Minimax {
         board.eraseMark( availableSpaces[availableIndex] );
 
         if ( currentMark == Mark2.COMPUTER && nextScore > score
-            || currentMark == Mark2.PLAYER && nextScore < score )
+            || currentMark == Mark2.PLAYER && nextScore < score
+            || availableIndex == 0 )
           score = nextScore;
       }
     }

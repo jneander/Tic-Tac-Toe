@@ -1,7 +1,6 @@
 package com.jneander.tictactoe.junit4;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -19,6 +18,7 @@ public class MinimaxTest {
     board = new Board();
   }
 
+  @Ignore
   @Test
   public void minimaxFindsWinningMove() {
     board.addMark( 0, Mark2.COMPUTER );
@@ -58,8 +58,46 @@ public class MinimaxTest {
               }
 
               if ( board.hasWinningSolution() )
-                if ( board.getWinningMark() == Mark2.PLAYER )
-                  fail( "PLAYER CANNOT WIN!" );
+                assertFalse( board.getWinningMark() == Mark2.PLAYER );
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @Ignore( "Only run if time permitting; takes about 5 minutes" )
+  @Test
+  public void computerNeverLosesWhenGoingSecond() {
+    int markIndices[] = new int[5];
+
+    for ( markIndices[0] = 0; markIndices[0] < 9; markIndices[0]++ ) {
+      for ( markIndices[1] = 0; markIndices[1] < 9; markIndices[1]++ ) {
+        for ( markIndices[2] = 0; markIndices[2] < 9; markIndices[2]++ ) {
+          for ( markIndices[3] = 0; markIndices[3] < 9; markIndices[3]++ ) {
+            for ( markIndices[4] = 0; markIndices[4] < 9; markIndices[4]++ ) {
+              if ( integersAreUnique( markIndices ) ) {
+                board = new Board();
+                boolean terminate = false;
+
+                for ( int turn = 0; turn < markIndices.length && !terminate; turn++ ) {
+                  if ( board.getMarkAtIndex( markIndices[turn] ) != Mark2.BLANK )
+                    terminate = true;
+                  else
+                    board.addMark( markIndices[turn], Mark2.PLAYER );
+
+                  if ( !board.hasWinningSolution() && turn != 4 && !terminate )
+                    board.addMark( getBestIndex( board, Mark2.COMPUTER ),
+                        Mark2.COMPUTER );
+
+                  if ( !terminate && board.hasWinningSolution() )
+                    terminate = true;
+                }
+
+                if ( board.hasWinningSolution() ) {
+                  assertFalse( board.getWinningMark() == Mark2.PLAYER );
+                }
+              }
             }
           }
         }
@@ -72,13 +110,13 @@ public class MinimaxTest {
 
     for ( int first = 0; first < integers.length - 1; first++ )
       for ( int second = first + 1; second < integers.length; second++ )
-        areUnique &= first != second;
+        areUnique &= integers[first] != integers[second];
 
     return areUnique;
   }
 
   private int getBestIndex( Board board, Mark2 currentMark ) {
-    int score = ((currentMark == Mark2.COMPUTER) ? -100 : 100);
+    int score = 0;
     int[] availableSpaces = board.getAvailableSpaces();
     int bestIndex = availableSpaces[0];
 
@@ -93,7 +131,8 @@ public class MinimaxTest {
         board.eraseMark( availableSpaces[availableIndex] );
 
         if ( currentMark == Mark2.COMPUTER && nextScore > score
-            || currentMark == Mark2.PLAYER && nextScore < score ) {
+            || currentMark == Mark2.PLAYER && nextScore < score
+            || availableIndex == 0 ) {
           score = nextScore;
           bestIndex = availableSpaces[availableIndex];
         }
