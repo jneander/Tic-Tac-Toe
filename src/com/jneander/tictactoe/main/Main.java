@@ -8,16 +8,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jneander.tictactoe.R;
-import com.jneander.tictactoe.R.id;
-import com.jneander.tictactoe.R.layout;
-import com.jneander.tictactoe.R.string;
 import com.jneander.tictactoe.game.Game;
+import com.jneander.tictactoe.game.Game2;
 import com.jneander.tictactoe.game.Mark;
 import com.jneander.tictactoe.game.Mark.MarkType;
+import com.jneander.tictactoe.game.Mark2;
 import com.jneander.tictactoe.ui.GameView;
 
 public class Main extends Activity {
-  private final Game game = new Game();
+  private final Game2 game = new Game2();
 
   private GameView gameView;
   private TextView messageView;
@@ -34,25 +33,24 @@ public class Main extends Activity {
     makeMarkButton = (Button) findViewById( R.id.button_make_mark );
     newGameButton = (Button) findViewById( R.id.button_new_game );
 
-    gameView.setGameBoard( game.getGameBoard() );
+    gameView.reset();
 
     makeMarkButton.setOnClickListener( new OnClickListener() {
       @Override
       public void onClick( View v ) {
-        int pos[] = gameView.getSelectedPos();
+        int spaceIndex = gameView.getSelectedSpaceIndex();
 
-        if ( !game.positionIsMarked( pos[0], pos[1] ) ) {
-          game.makePlayerMarkAtPosition( pos[0], pos[1] );
-          gameView.updateMarkAtPosition( pos[0], pos[1] );
+        if ( !game.positionIsMarked( spaceIndex ) ) {
+          game.makePlayerMarkAtPosition( spaceIndex );
+          gameView.updateMarkAtPosition( spaceIndex, Mark2.PLAYER );
 
           if ( !game.isGameOver() ) {
-            game.makeComputerMark();
-            Mark lastMark = game.getLastMark();
-            gameView.updateMarkAtPosition( lastMark.row, lastMark.col );
+            int markIndex = game.makeComputerMark();
+            gameView.updateMarkAtPosition( markIndex, Mark2.COMPUTER );
           }
 
           if ( game.isGameOver() ) {
-            messageView.setText( (game.getWinner() == MarkType.COMPUTER) ?
+            messageView.setText( (game.getWinner() == Mark2.COMPUTER) ?
                 getString( R.string.lose_message ) : getString( R.string.tie_message ) );
           }
         }
@@ -63,17 +61,9 @@ public class Main extends Activity {
       @Override
       public void onClick( View v ) {
         messageView.setText( "" );
-        game.resetGame();
-        gameView.setGameBoard( game.getGameBoard() );
+        game.reset();
+        gameView.reset();
       }
     } );
-  }
-
-  public void makeMark( int row, int col ) {
-    if ( !game.positionIsMarked( row, col ) && !game.isGameOver() ) {
-      game.makePlayerMarkAtPosition( row, col );
-      Mark lastMark = game.getLastMark();
-      gameView.updateMarkAtPosition( lastMark.row, lastMark.col );
-    }
   }
 }

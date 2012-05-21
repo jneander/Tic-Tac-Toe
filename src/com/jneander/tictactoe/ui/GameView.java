@@ -10,8 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.jneander.tictactoe.game.Mark;
-import com.jneander.tictactoe.game.Mark.MarkType;
+import com.jneander.tictactoe.game.Mark2;
 
 public class GameView extends View {
   private float squareWidth;
@@ -23,7 +22,7 @@ public class GameView extends View {
   private final Rect selectedRect = new Rect();
   private final Rect targetRect = new Rect();
 
-  Mark gameBoard[][] = new Mark[3][3];
+  Mark2 gameBoard2[] = new Mark2[9];
 
   public GameView( Context context ) {
     super( context );
@@ -44,16 +43,19 @@ public class GameView extends View {
     setFocusable( true );
     setFocusableInTouchMode( true );
 
-    for ( int row = 0; row < 3; row++ )
-      for ( int col = 0; col < 3; col++ )
-        gameBoard[row][col] = new Mark( row, col );
-
-    selectSquare( 1, 1 );
+    clearBoard();
   }
 
-  public void setGameBoard( Mark[][] gameBoard ) {
-    this.gameBoard = gameBoard;
+  public void reset() {
+    clearBoard();
+
+    selectSquare( 1, 1 );
     invalidate();
+  }
+
+  private void clearBoard() {
+    for ( int spaceIndex = 0; spaceIndex < gameBoard2.length; spaceIndex++ )
+      gameBoard2[spaceIndex] = Mark2.BLANK;
   }
 
   private void getRect( int row, int col, Rect rect ) {
@@ -66,7 +68,7 @@ public class GameView extends View {
     squareWidth = w / 3f;
     squareHeight = h / 3f;
     getRect( selectedRow, selectedCol, selectedRect );
-    
+
     super.onSizeChanged( w, h, oldw, oldh );
   }
 
@@ -99,19 +101,20 @@ public class GameView extends View {
     blackPaint.setColor( Color.BLACK );
     blackPaint.setStyle( Style.STROKE );
 
-    for ( int row = 0; row < 3; row++ ) {
-      for ( int col = 0; col < 3; col++ ) {
-        if ( gameBoard[row][col].getType() == MarkType.PLAYER ) {
-          canvas.drawCircle( (row + 0.5f) * squareHeight, (col + 0.5f) * squareWidth, squareWidth * 0.25f, blackPaint );
-        } else if ( gameBoard[row][col].getType() == MarkType.COMPUTER ) {
-          float top = (row + 0.25f) * squareHeight;
-          float bottom = (row + 0.75f) * squareHeight;
-          float left = (col + 0.25f) * squareWidth;
-          float right = (col + 0.75f) * squareWidth;
+    for ( int spaceIndex = 0; spaceIndex < gameBoard2.length; spaceIndex++ ) {
+      int row = spaceIndex / 3;
+      int col = spaceIndex % 3;
 
-          canvas.drawLine( top, left, bottom, right, blackPaint );
-          canvas.drawLine( top, right, bottom, left, blackPaint );
-        }
+      if ( gameBoard2[spaceIndex] == Mark2.PLAYER ) {
+        canvas.drawCircle( (row + 0.5f) * squareHeight, (col + 0.5f) * squareWidth, squareWidth * 0.25f, blackPaint );
+      } else if ( gameBoard2[spaceIndex] == Mark2.COMPUTER ) {
+        float top = (row + 0.25f) * squareHeight;
+        float bottom = (row + 0.75f) * squareHeight;
+        float left = (col + 0.25f) * squareWidth;
+        float right = (col + 0.75f) * squareWidth;
+
+        canvas.drawLine( top, left, bottom, right, blackPaint );
+        canvas.drawLine( top, right, bottom, left, blackPaint );
       }
     }
   }
@@ -129,11 +132,11 @@ public class GameView extends View {
 
   private void selectSquare( int row, int col ) {
     invalidate( selectedRect );
-    
+
     selectedRow = row;
     selectedCol = col;
     getRect( selectedRow, selectedCol, selectedRect );
-    
+
     invalidate( selectedRect );
   }
 
@@ -155,11 +158,12 @@ public class GameView extends View {
     return true;
   }
 
-  public void updateMarkAtPosition( int row, int col ) {
-    redrawSquare( row, col );
+  public void updateMarkAtPosition( int spaceIndex, Mark2 mark ) {
+    gameBoard2[spaceIndex] = mark;
+    redrawSquare( spaceIndex / 3, spaceIndex % 3 );
   }
 
-  public int[] getSelectedPos() {
-    return new int[] { selectedRow, selectedCol };
+  public int getSelectedSpaceIndex() {
+    return selectedRow * 3 + selectedCol;
   }
 }
