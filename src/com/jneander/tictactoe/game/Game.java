@@ -2,13 +2,13 @@ package com.jneander.tictactoe.game;
 
 import com.jneander.tictactoe.util.Minimax;
 
-public class Game2 {
+public class Game {
   private Board board;
 
   private boolean gameOver;
   private Mark2 winner;
 
-  public Game2() {
+  public Game() {
     board = new Board();
   }
 

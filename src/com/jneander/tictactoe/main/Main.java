@@ -8,12 +8,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jneander.tictactoe.R;
-import com.jneander.tictactoe.game.Game2;
+import com.jneander.tictactoe.game.Game;
 import com.jneander.tictactoe.game.Mark2;
 import com.jneander.tictactoe.ui.GameView;
 
 public class Main extends Activity {
-  private final Game2 game = new Game2();
+  private final Game game = new Game();
 
   private GameView gameView;
   private TextView messageView;
