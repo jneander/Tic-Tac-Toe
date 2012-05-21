@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.jneander.tictactoe.R;
 import com.jneander.tictactoe.game.Game;
-import com.jneander.tictactoe.game.Mark2;
+import com.jneander.tictactoe.game.Mark;
 import com.jneander.tictactoe.ui.GameView;
 
 public class Main extends Activity {
@@ -39,15 +39,15 @@ public class Main extends Activity {
 
         if ( !game.positionIsMarked( spaceIndex ) ) {
           game.makePlayerMarkAtPosition( spaceIndex );
-          gameView.updateMarkAtPosition( spaceIndex, Mark2.PLAYER );
+          gameView.updateMarkAtPosition( spaceIndex, Mark.PLAYER );
 
           if ( !game.isGameOver() ) {
             int markIndex = game.makeComputerMark();
-            gameView.updateMarkAtPosition( markIndex, Mark2.COMPUTER );
+            gameView.updateMarkAtPosition( markIndex, Mark.COMPUTER );
           }
 
           if ( game.isGameOver() ) {
-            messageView.setText( (game.getWinner() == Mark2.COMPUTER) ?
+            messageView.setText( (game.getWinner() == Mark.COMPUTER) ?
                 getString( R.string.lose_message ) : getString( R.string.tie_message ) );
           }
         }

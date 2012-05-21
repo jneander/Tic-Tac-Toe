@@ -1,6 +1,6 @@
 package com.jneander.tictactoe.game;
 
-public enum Mark2 {
+public enum Mark {
   BLANK,
   PLAYER,
   COMPUTER

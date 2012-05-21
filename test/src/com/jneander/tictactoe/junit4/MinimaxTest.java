@@ -7,7 +7,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.jneander.tictactoe.game.Board;
-import com.jneander.tictactoe.game.Mark2;
+import com.jneander.tictactoe.game.Mark;
 import com.jneander.tictactoe.util.Minimax;
 
 public class MinimaxTest {
@@ -21,12 +21,12 @@ public class MinimaxTest {
   @Ignore
   @Test
   public void minimaxFindsWinningMove() {
-    board.addMark( 0, Mark2.COMPUTER );
-    board.addMark( 2, Mark2.PLAYER );
-    board.addMark( 3, Mark2.COMPUTER );
-    board.addMark( 5, Mark2.PLAYER );
+    board.addMark( 0, Mark.COMPUTER );
+    board.addMark( 2, Mark.PLAYER );
+    board.addMark( 3, Mark.COMPUTER );
+    board.addMark( 5, Mark.PLAYER );
 
-    int bestIndex = getBestIndex( board, Mark2.COMPUTER );
+    int bestIndex = getBestIndex( board, Mark.COMPUTER );
     assertTrue( bestIndex == 6 );
   }
 
@@ -44,13 +44,13 @@ public class MinimaxTest {
               boolean terminate = false;
 
               for ( int turn = 0; turn < markIndices.length && !terminate; turn++ ) {
-                board.addMark( getBestIndex( board, Mark2.COMPUTER ), Mark2.COMPUTER );
+                board.addMark( getBestIndex( board, Mark.COMPUTER ), Mark.COMPUTER );
 
                 if ( !board.hasWinningSolution() ) {
-                  if ( board.getMarkAtIndex( markIndices[turn] ) != Mark2.BLANK )
+                  if ( board.getMarkAtIndex( markIndices[turn] ) != Mark.BLANK )
                     terminate = true;
                   else
-                    board.addMark( markIndices[turn], Mark2.PLAYER );
+                    board.addMark( markIndices[turn], Mark.PLAYER );
                 }
 
                 if ( board.hasWinningSolution() )
@@ -58,7 +58,7 @@ public class MinimaxTest {
               }
 
               if ( board.hasWinningSolution() )
-                assertFalse( board.getWinningMark() == Mark2.PLAYER );
+                assertFalse( board.getWinningMark() == Mark.PLAYER );
             }
           }
         }
@@ -81,21 +81,21 @@ public class MinimaxTest {
                 boolean terminate = false;
 
                 for ( int turn = 0; turn < markIndices.length && !terminate; turn++ ) {
-                  if ( board.getMarkAtIndex( markIndices[turn] ) != Mark2.BLANK )
+                  if ( board.getMarkAtIndex( markIndices[turn] ) != Mark.BLANK )
                     terminate = true;
                   else
-                    board.addMark( markIndices[turn], Mark2.PLAYER );
+                    board.addMark( markIndices[turn], Mark.PLAYER );
 
                   if ( !board.hasWinningSolution() && turn != 4 && !terminate )
-                    board.addMark( getBestIndex( board, Mark2.COMPUTER ),
-                        Mark2.COMPUTER );
+                    board.addMark( getBestIndex( board, Mark.COMPUTER ),
+                        Mark.COMPUTER );
 
                   if ( !terminate && board.hasWinningSolution() )
                     terminate = true;
                 }
 
                 if ( board.hasWinningSolution() ) {
-                  assertFalse( board.getWinningMark() == Mark2.PLAYER );
+                  assertFalse( board.getWinningMark() == Mark.PLAYER );
                 }
               }
             }
@@ -115,23 +115,23 @@ public class MinimaxTest {
     return areUnique;
   }
 
-  private int getBestIndex( Board board, Mark2 currentMark ) {
+  private int getBestIndex( Board board, Mark currentMark ) {
     int score = 0;
     int[] availableSpaces = board.getAvailableSpaces();
     int bestIndex = availableSpaces[0];
 
     if ( board.hasWinningSolution() )
-      score = ((board.getWinningMark() == Mark2.COMPUTER) ? 1 : -1);
+      score = ((board.getWinningMark() == Mark.COMPUTER) ? 1 : -1);
     else if ( availableSpaces.length != 0 ) {
-      Mark2 nextMark = (currentMark == Mark2.COMPUTER) ? Mark2.PLAYER : Mark2.COMPUTER;
+      Mark nextMark = (currentMark == Mark.COMPUTER) ? Mark.PLAYER : Mark.COMPUTER;
 
       for ( int availableIndex = 0; availableIndex < availableSpaces.length; availableIndex++ ) {
         board.addMark( availableSpaces[availableIndex], currentMark );
         int nextScore = Minimax.minimax( board, nextMark );
         board.eraseMark( availableSpaces[availableIndex] );
 
-        if ( currentMark == Mark2.COMPUTER && nextScore > score
-            || currentMark == Mark2.PLAYER && nextScore < score
+        if ( currentMark == Mark.COMPUTER && nextScore > score
+            || currentMark == Mark.PLAYER && nextScore < score
             || availableIndex == 0 ) {
           score = nextScore;
           bestIndex = availableSpaces[availableIndex];

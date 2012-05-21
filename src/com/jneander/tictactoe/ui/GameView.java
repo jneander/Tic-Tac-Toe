@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.jneander.tictactoe.game.Mark2;
+import com.jneander.tictactoe.game.Mark;
 
 public class GameView extends View {
   private float squareWidth;
@@ -22,7 +22,7 @@ public class GameView extends View {
   private final Rect selectedRect = new Rect();
   private final Rect targetRect = new Rect();
 
-  Mark2 gameBoard2[] = new Mark2[9];
+  Mark gameBoard2[] = new Mark[9];
 
   public GameView( Context context ) {
     super( context );
@@ -55,7 +55,7 @@ public class GameView extends View {
 
   private void clearBoard() {
     for ( int spaceIndex = 0; spaceIndex < gameBoard2.length; spaceIndex++ )
-      gameBoard2[spaceIndex] = Mark2.BLANK;
+      gameBoard2[spaceIndex] = Mark.BLANK;
   }
 
   private void getRect( int row, int col, Rect rect ) {
@@ -105,9 +105,9 @@ public class GameView extends View {
       int row = spaceIndex / 3;
       int col = spaceIndex % 3;
 
-      if ( gameBoard2[spaceIndex] == Mark2.PLAYER ) {
+      if ( gameBoard2[spaceIndex] == Mark.PLAYER ) {
         canvas.drawCircle( (row + 0.5f) * squareHeight, (col + 0.5f) * squareWidth, squareWidth * 0.25f, blackPaint );
-      } else if ( gameBoard2[spaceIndex] == Mark2.COMPUTER ) {
+      } else if ( gameBoard2[spaceIndex] == Mark.COMPUTER ) {
         float top = (row + 0.25f) * squareHeight;
         float bottom = (row + 0.75f) * squareHeight;
         float left = (col + 0.25f) * squareWidth;
@@ -158,7 +158,7 @@ public class GameView extends View {
     return true;
   }
 
-  public void updateMarkAtPosition( int spaceIndex, Mark2 mark ) {
+  public void updateMarkAtPosition( int spaceIndex, Mark mark ) {
     gameBoard2[spaceIndex] = mark;
     redrawSquare( spaceIndex / 3, spaceIndex % 3 );
   }

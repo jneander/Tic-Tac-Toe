@@ -6,7 +6,7 @@ public class Game {
   private Board board;
 
   private boolean gameOver;
-  private Mark2 winner;
+  private Mark winner;
 
   public Game() {
     board = new Board();
@@ -15,31 +15,31 @@ public class Game {
   public void reset() {
     board.reset();
     this.gameOver = false;
-    this.winner = Mark2.BLANK;
+    this.winner = Mark.BLANK;
   }
 
   public boolean isGameOver() {
     return this.gameOver;
   }
 
-  public Mark2 getWinner() {
+  public Mark getWinner() {
     return this.winner;
   }
 
   public boolean positionIsMarked( int spaceIndex ) {
-    return (board.getMarkAtIndex( spaceIndex ) != Mark2.BLANK);
+    return (board.getMarkAtIndex( spaceIndex ) != Mark.BLANK);
   }
 
   public void makePlayerMarkAtPosition( int spaceIndex ) {
     if ( !positionIsMarked( spaceIndex ) ) {
-      board.addMark( spaceIndex, Mark2.PLAYER );
+      board.addMark( spaceIndex, Mark.PLAYER );
       checkForGameOver();
     }
   }
 
   public int makeComputerMark() {
     int bestSpace = getBestSpaceForComputer();
-    board.addMark( bestSpace, Mark2.COMPUTER );
+    board.addMark( bestSpace, Mark.COMPUTER );
     checkForGameOver();
     return bestSpace;
   }
@@ -57,7 +57,7 @@ public class Game {
     int bestIndex = 0;
 
     if ( board.hasWinningSolution() )
-      score = ((board.getWinningMark() == Mark2.COMPUTER) ? 1 : -1);
+      score = ((board.getWinningMark() == Mark.COMPUTER) ? 1 : -1);
     else if ( availableSpaces.length != 0 ) {
       for ( int availableIndex = 0; availableIndex < availableSpaces.length; availableIndex++ ) {
         int nextScore = getChildBoardScore( availableSpaces[availableIndex] );
@@ -73,8 +73,8 @@ public class Game {
   }
 
   private int getChildBoardScore( int spaceIndex ) {
-    board.addMark( spaceIndex, Mark2.COMPUTER );
-    int childScore = Minimax.minimax( board, Mark2.PLAYER );
+    board.addMark( spaceIndex, Mark.COMPUTER );
+    int childScore = Minimax.minimax( board, Mark.PLAYER );
     board.eraseMark( spaceIndex );
 
     return childScore;
