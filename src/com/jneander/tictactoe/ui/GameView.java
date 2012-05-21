@@ -22,7 +22,7 @@ public class GameView extends View {
   private final Rect selectedRect = new Rect();
   private final Rect targetRect = new Rect();
 
-  Mark gameBoard2[] = new Mark[9];
+  Mark gameBoard[] = new Mark[9];
 
   public GameView( Context context ) {
     super( context );
@@ -54,8 +54,8 @@ public class GameView extends View {
   }
 
   private void clearBoard() {
-    for ( int spaceIndex = 0; spaceIndex < gameBoard2.length; spaceIndex++ )
-      gameBoard2[spaceIndex] = Mark.BLANK;
+    for ( int spaceIndex = 0; spaceIndex < gameBoard.length; spaceIndex++ )
+      gameBoard[spaceIndex] = Mark.BLANK;
   }
 
   private void getRect( int row, int col, Rect rect ) {
@@ -101,13 +101,13 @@ public class GameView extends View {
     blackPaint.setColor( Color.BLACK );
     blackPaint.setStyle( Style.STROKE );
 
-    for ( int spaceIndex = 0; spaceIndex < gameBoard2.length; spaceIndex++ ) {
+    for ( int spaceIndex = 0; spaceIndex < gameBoard.length; spaceIndex++ ) {
       int row = spaceIndex / 3;
       int col = spaceIndex % 3;
 
-      if ( gameBoard2[spaceIndex] == Mark.PLAYER ) {
+      if ( gameBoard[spaceIndex] == Mark.PLAYER ) {
         canvas.drawCircle( (row + 0.5f) * squareHeight, (col + 0.5f) * squareWidth, squareWidth * 0.25f, blackPaint );
-      } else if ( gameBoard2[spaceIndex] == Mark.COMPUTER ) {
+      } else if ( gameBoard[spaceIndex] == Mark.COMPUTER ) {
         float top = (row + 0.25f) * squareHeight;
         float bottom = (row + 0.75f) * squareHeight;
         float left = (col + 0.25f) * squareWidth;
@@ -159,7 +159,7 @@ public class GameView extends View {
   }
 
   public void updateMarkAtPosition( int spaceIndex, Mark mark ) {
-    gameBoard2[spaceIndex] = mark;
+    gameBoard[spaceIndex] = mark;
     redrawSquare( spaceIndex / 3, spaceIndex % 3 );
   }
 
