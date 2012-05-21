@@ -37,7 +37,7 @@ public class Main extends Activity {
       public void onClick( View v ) {
         int spaceIndex = gameView.getSelectedSpaceIndex();
 
-        if ( !game.positionIsMarked( spaceIndex ) ) {
+        if ( !game.positionIsMarked( spaceIndex ) && !game.isGameOver() ) {
           game.makePlayerMarkAtPosition( spaceIndex );
           gameView.updateMarkAtPosition( spaceIndex, Mark.PLAYER );
 
