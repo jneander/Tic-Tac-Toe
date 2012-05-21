@@ -33,6 +33,16 @@ public class BoardTest {
   }
 
   @Test
+  public void boardResets() {
+    board.addMark( 0, Mark2.COMPUTER );
+    board.addMark( 3, Mark2.COMPUTER );
+    board.addMark( 5, Mark2.COMPUTER );
+    board.addMark( 7, Mark2.COMPUTER );
+    board.reset();
+    assertTrue( board.getAvailableSpaces().length == 9 );
+  }
+
+  @Test
   public void boardCanDetectWinningSolution() {
     board.addMark( 0, Mark2.COMPUTER );
     board.addMark( 1, Mark2.COMPUTER );

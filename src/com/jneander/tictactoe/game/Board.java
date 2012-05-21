@@ -42,6 +42,11 @@ public class Board {
     }
   }
 
+  public void reset() {
+    for ( int spaceIndex = 0; spaceIndex < gameBoard.length; spaceIndex++)
+      eraseMark(spaceIndex);
+  }
+  
   public int[] getAvailableSpaces() {
     int spaces[] = new int[blankSpaces];
     int spacesIndex = 0;
