@@ -8,10 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jneander.tictactoe.R;
-import com.jneander.tictactoe.game.Game;
 import com.jneander.tictactoe.game.Game2;
-import com.jneander.tictactoe.game.Mark;
-import com.jneander.tictactoe.game.Mark.MarkType;
 import com.jneander.tictactoe.game.Mark2;
 import com.jneander.tictactoe.ui.GameView;
 
