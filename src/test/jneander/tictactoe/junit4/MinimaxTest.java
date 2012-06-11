@@ -1,4 +1,4 @@
-package com.jneander.tictactoe.junit4;
+package test.jneander.tictactoe.junit4;
 
 import static org.junit.Assert.*;
 
