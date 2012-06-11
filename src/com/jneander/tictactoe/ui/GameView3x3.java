@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.jneander.tictactoe.game.Mark;
 
-public class GameView extends View {
+public class GameView3x3 extends View {
   private float squareWidth;
   private float squareHeight;
 
@@ -24,17 +24,17 @@ public class GameView extends View {
 
   Mark gameBoard[] = new Mark[9];
 
-  public GameView( Context context ) {
+  public GameView3x3( Context context ) {
     super( context );
     initialSetup();
   }
 
-  public GameView( Context context, AttributeSet attrs ) {
+  public GameView3x3( Context context, AttributeSet attrs ) {
     super( context, attrs );
     initialSetup();
   }
 
-  public GameView( Context context, AttributeSet attrs, int defStyle ) {
+  public GameView3x3( Context context, AttributeSet attrs, int defStyle ) {
     super( context, attrs, defStyle );
     initialSetup();
   }

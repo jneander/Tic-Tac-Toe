@@ -10,12 +10,12 @@ import android.widget.TextView;
 import com.jneander.tictactoe.R;
 import com.jneander.tictactoe.game.Game;
 import com.jneander.tictactoe.game.Mark;
-import com.jneander.tictactoe.ui.GameView;
+import com.jneander.tictactoe.ui.GameView3x3;
 
 public class Main extends Activity {
   private final Game game = new Game();
 
-  private GameView gameView;
+  private GameView3x3 gameView;
   private TextView messageView;
   private Button makeMarkButton;
   private Button newGameButton;
@@ -25,7 +25,7 @@ public class Main extends Activity {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.main );
 
-    gameView = (GameView) findViewById( R.id.game_view );
+    gameView = (GameView3x3) findViewById( R.id.game_view );
     messageView = (TextView) findViewById( R.id.game_message );
     makeMarkButton = (Button) findViewById( R.id.button_make_mark );
     newGameButton = (Button) findViewById( R.id.button_new_game );
