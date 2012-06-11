@@ -5,8 +5,8 @@ import com.jneander.tictactoe.util.Minimax;
 public class Game {
   private Board board;
 
-  private boolean gameOver;
-  private Mark winner;
+  private boolean gameOver = false;
+  private Mark winner = Mark.BLANK;
 
   public Game() {
     board = new Board();
