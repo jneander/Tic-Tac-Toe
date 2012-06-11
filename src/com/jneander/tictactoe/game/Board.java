@@ -4,8 +4,8 @@ public class Board {
   private Mark gameBoard[];
   private int blankSpaces;
 
-  private boolean solutionFound;
-  private Mark winningMark;
+  private boolean solutionFound = false;
+  private Mark winningMark = Mark.BLANK;
 
   public final static int winSets[][] = {
       { 0, 1, 2 }, { 3, 4, 5 },
@@ -43,10 +43,10 @@ public class Board {
   }
 
   public void reset() {
-    for ( int spaceIndex = 0; spaceIndex < gameBoard.length; spaceIndex++)
-      eraseMark(spaceIndex);
+    for ( int spaceIndex = 0; spaceIndex < gameBoard.length; spaceIndex++ )
+      eraseMark( spaceIndex );
   }
-  
+
   public int[] getAvailableSpaces() {
     int spaces[] = new int[blankSpaces];
     int spacesIndex = 0;
