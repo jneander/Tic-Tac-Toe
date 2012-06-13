@@ -4,12 +4,14 @@ import com.jneander.tictactoe.util.Minimax;
 
 public class Game {
   private Board board;
+  private Computer computer;
 
   private boolean gameOver = false;
   private Mark winner = Mark.BLANK;
 
   public Game() {
     board = new Board();
+    computer = new ImpossibleComputer( board );
   }
 
   public void reset() {
@@ -38,7 +40,7 @@ public class Game {
   }
 
   public int makeComputerMark() {
-    int bestSpace = getBestSpaceForComputer();
+    int bestSpace = computer.getNextMarkPosition();
     board.addMark( bestSpace, Mark.COMPUTER );
     checkForGameOver();
     return bestSpace;
@@ -49,34 +51,5 @@ public class Game {
       this.winner = board.getWinningMark();
       this.gameOver = true;
     }
-  }
-
-  private int getBestSpaceForComputer() {
-    int score = 0;
-    int[] availableSpaces = board.getAvailableSpaces();
-    int bestIndex = 0;
-
-    if ( board.hasWinningSolution() )
-      score = ((board.getWinningMark() == Mark.COMPUTER) ? 1 : -1);
-    else if ( availableSpaces.length != 0 ) {
-      for ( int availableIndex = 0; availableIndex < availableSpaces.length && score != 1; availableIndex++ ) {
-        int nextScore = getChildBoardScore( availableSpaces[availableIndex] );
-
-        if ( nextScore > score || availableIndex == 0 ) {
-          score = nextScore;
-          bestIndex = availableSpaces[availableIndex];
-        }
-      }
-    }
-
-    return bestIndex;
-  }
-
-  private int getChildBoardScore( int spaceIndex ) {
-    board.addMark( spaceIndex, Mark.COMPUTER );
-    int childScore = Minimax.minimax( board, Mark.PLAYER );
-    board.eraseMark( spaceIndex );
-
-    return childScore;
   }
 }
