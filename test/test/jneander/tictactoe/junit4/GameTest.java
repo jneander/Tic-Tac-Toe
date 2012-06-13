@@ -1,9 +1,13 @@
 package test.jneander.tictactoe.junit4;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
+import com.jneander.tictactoe.game.Console;
 import com.jneander.tictactoe.game.Game;
 import com.jneander.tictactoe.game.Mark;
 
@@ -11,10 +15,29 @@ public class GameTest {
   private Game game;
   private final int boardSize = 3;
   private final int indexCount = boardSize * boardSize;
+  private Console console;
 
   @Before
   public void setUp() {
     game = new Game();
+    console = new Console() {
+
+      @Override
+      public void reportGameTied() {}
+
+      @Override
+      public void reportGameLost() {}
+
+      @Override
+      public void reportGameWon() {}
+
+      @Override
+      public void reportIllegalMove() {}
+
+      @Override
+      public void displayComputerMark( int position ) {}
+    };
+    game.setConsole( console );
   }
 
   @Test
@@ -46,6 +69,7 @@ public class GameTest {
   public void gameCanReset() {
     game.makePlayerMarkAtPosition( 0 );
     game.reset();
+    game.reset(); // second reset also resets turn order
     assertFalse( game.positionIsMarked( 0 ) );
   }
 }
