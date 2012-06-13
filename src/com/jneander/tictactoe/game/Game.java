@@ -1,7 +1,5 @@
 package com.jneander.tictactoe.game;
 
-import com.jneander.tictactoe.util.Minimax;
-
 public class Game {
   private Board board;
   private Computer computer;
