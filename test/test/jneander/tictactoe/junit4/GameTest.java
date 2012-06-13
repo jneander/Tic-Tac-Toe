@@ -43,25 +43,6 @@ public class GameTest {
   }
 
   @Test
-  public void canMakeComputerMark() {
-    boolean foundComputerMark = false;
-
-    game.makeComputerMark();
-    for ( int spaceIndex = 0; spaceIndex < indexCount; spaceIndex++ )
-      foundComputerMark |= game.positionIsMarked( spaceIndex );
-
-    assertTrue( foundComputerMark );
-  }
-
-  @Test
-  public void gameCanEnd() {
-    for ( int move = 0; move < 3; move++ )
-      game.makeComputerMark();
-    assertTrue( game.isGameOver() );
-    assertEquals( Mark.COMPUTER, game.getWinner() );
-  }
-
-  @Test
   public void gameCanReset() {
     game.makePlayerMarkAtPosition( 0 );
     game.reset();
