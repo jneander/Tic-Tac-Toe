@@ -8,11 +8,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jneander.tictactoe.R;
+import com.jneander.tictactoe.game.Console;
 import com.jneander.tictactoe.game.Game;
 import com.jneander.tictactoe.game.Mark;
 import com.jneander.tictactoe.ui.GameView3x3;
 
-public class Main extends Activity {
+public class Main extends Activity implements Console {
   private final Game game = new Game();
 
   private GameView3x3 gameView;
@@ -24,6 +25,8 @@ public class Main extends Activity {
   public void onCreate( Bundle savedInstanceState ) {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.main );
+
+    game.setConsole( this );
 
     gameView = (GameView3x3) findViewById( R.id.game_view );
     messageView = (TextView) findViewById( R.id.game_message );
@@ -38,18 +41,8 @@ public class Main extends Activity {
         int spaceIndex = gameView.getSelectedSpaceIndex();
 
         if ( !game.positionIsMarked( spaceIndex ) && !game.isGameOver() ) {
-          game.makePlayerMarkAtPosition( spaceIndex );
           gameView.updateMarkAtPosition( spaceIndex, Mark.PLAYER );
-
-          if ( !game.isGameOver() ) {
-            int markIndex = game.makeComputerMark();
-            gameView.updateMarkAtPosition( markIndex, Mark.COMPUTER );
-          }
-
-          if ( game.isGameOver() ) {
-            messageView.setText( (game.getWinner() == Mark.COMPUTER) ?
-                getString( R.string.lose_message ) : getString( R.string.tie_message ) );
-          }
+          game.makePlayerMarkAtPosition( spaceIndex );
         }
       }
     } );
@@ -58,9 +51,30 @@ public class Main extends Activity {
       @Override
       public void onClick( View v ) {
         messageView.setText( "" );
-        game.reset();
         gameView.reset();
+        game.reset();
       }
     } );
+  }
+
+  @Override
+  public void reportGameTied() {
+    messageView.setText( getString( R.string.tie_message ) );
+  }
+
+  @Override
+  public void reportGameLost() {
+    messageView.setText( getString( R.string.lose_message ) );
+  }
+
+  @Override
+  public void reportGameWon() {}
+
+  @Override
+  public void reportIllegalMove() {}
+
+  @Override
+  public void displayComputerMark( int position ) {
+    gameView.updateMarkAtPosition( position, Mark.COMPUTER );
   }
 }
