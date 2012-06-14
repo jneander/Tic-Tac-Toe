@@ -14,10 +14,12 @@ import com.jneander.tictactoe.game.Mark;
 import com.jneander.tictactoe.ui.BoardView;
 
 public class Main extends Activity implements Console {
-  private final Game game = new Game( 3 );
+  private int currentBoardSize = 3;
+  private Game game = new Game( currentBoardSize );
 
   private BoardView gameView;
   private TextView messageView;
+
   private Button makeMarkButton;
   private Button newGameButton;
 
@@ -29,11 +31,12 @@ public class Main extends Activity implements Console {
     game.setConsole( this );
 
     gameView = (BoardView) findViewById( R.id.game_view );
+    gameView.setBoardSize( currentBoardSize );
+
     messageView = (TextView) findViewById( R.id.game_message );
+
     makeMarkButton = (Button) findViewById( R.id.button_make_mark );
     newGameButton = (Button) findViewById( R.id.button_new_game );
-
-    gameView.setBoardSize( 3 );
 
     makeMarkButton.setOnClickListener( new OnClickListener() {
       @Override
