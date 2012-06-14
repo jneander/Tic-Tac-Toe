@@ -9,69 +9,69 @@ import com.jneander.tictactoe.game.Board;
 import com.jneander.tictactoe.game.Mark;
 
 public class BoardTest {
-  private Board board;
+  private Board board3x3;
 
   @Before
   public void setUp() {
-    board = new Board(3);
+    board3x3 = new Board(3);
   }
   
   @Test
   public void canGetAvailableSpaces() {
-    assertEquals(9, board.getAvailableSpaces().length);
+    assertEquals(9, board3x3.getAvailableSpaces().length);
     
-    board.addMark( 0, Mark.PLAYER );
-    assertEquals(8, board.getAvailableSpaces().length);
-    assertEquals(1, board.getAvailableSpaces()[0]);
+    board3x3.addMark( 0, Mark.PLAYER );
+    assertEquals(8, board3x3.getAvailableSpaces().length);
+    assertEquals(1, board3x3.getAvailableSpaces()[0]);
     
-    board.addMark( 5, Mark.PLAYER );
-    assertEquals(7, board.getAvailableSpaces().length);
-    assertEquals(6, board.getAvailableSpaces()[4]);
+    board3x3.addMark( 5, Mark.PLAYER );
+    assertEquals(7, board3x3.getAvailableSpaces().length);
+    assertEquals(6, board3x3.getAvailableSpaces()[4]);
   }
 
   @Test
   public void boardAcceptsMark() {
-    board.addMark( 0, Mark.COMPUTER );
-    assertTrue( board.getAvailableSpaces().length == 8 );
-    assertTrue( board.getMarkAtIndex( 0 ) == Mark.COMPUTER );
+    board3x3.addMark( 0, Mark.COMPUTER );
+    assertTrue( board3x3.getAvailableSpaces().length == 8 );
+    assertTrue( board3x3.getMarkAtIndex( 0 ) == Mark.COMPUTER );
   }
 
   @Test
   public void boardErasesMark() {
-    board.addMark( 0, Mark.COMPUTER );
-    assertTrue( board.getMarkAtIndex( 0 ) == Mark.COMPUTER );
-    board.eraseMark( 0 );
-    assertFalse( board.getMarkAtIndex( 0 ) == Mark.COMPUTER );
-    assertTrue( board.getMarkAtIndex( 0 ) == Mark.BLANK );
+    board3x3.addMark( 0, Mark.COMPUTER );
+    assertTrue( board3x3.getMarkAtIndex( 0 ) == Mark.COMPUTER );
+    board3x3.eraseMark( 0 );
+    assertFalse( board3x3.getMarkAtIndex( 0 ) == Mark.COMPUTER );
+    assertTrue( board3x3.getMarkAtIndex( 0 ) == Mark.BLANK );
   }
 
   @Test
   public void boardResets() {
-    board.addMark( 0, Mark.COMPUTER );
-    board.addMark( 3, Mark.COMPUTER );
-    board.addMark( 5, Mark.COMPUTER );
-    board.addMark( 7, Mark.COMPUTER );
-    board.reset();
-    assertTrue( board.getAvailableSpaces().length == 9 );
+    board3x3.addMark( 0, Mark.COMPUTER );
+    board3x3.addMark( 3, Mark.COMPUTER );
+    board3x3.addMark( 5, Mark.COMPUTER );
+    board3x3.addMark( 7, Mark.COMPUTER );
+    board3x3.reset();
+    assertTrue( board3x3.getAvailableSpaces().length == 9 );
   }
 
   @Test
   public void boardCanDetectWinningSolution() {
-    board.addMark( 0, Mark.COMPUTER );
-    board.addMark( 1, Mark.COMPUTER );
-    assertFalse( board.hasWinningSolution() );
+    board3x3.addMark( 0, Mark.COMPUTER );
+    board3x3.addMark( 1, Mark.COMPUTER );
+    assertFalse( board3x3.hasWinningSolution() );
 
-    board.addMark( 2, Mark.COMPUTER );
-    assertTrue( board.hasWinningSolution() );
+    board3x3.addMark( 2, Mark.COMPUTER );
+    assertTrue( board3x3.hasWinningSolution() );
   }
 
   @Test
   public void boardCanFindWinningMark() {
-    board.addMark( 0, Mark.COMPUTER );
-    board.addMark( 1, Mark.COMPUTER );
-    board.addMark( 2, Mark.COMPUTER );
+    board3x3.addMark( 0, Mark.COMPUTER );
+    board3x3.addMark( 1, Mark.COMPUTER );
+    board3x3.addMark( 2, Mark.COMPUTER );
 
-    assertTrue( board.hasWinningSolution() );
-    assertTrue( board.getWinningMark() == Mark.COMPUTER );
+    assertTrue( board3x3.hasWinningSolution() );
+    assertTrue( board3x3.getWinningMark() == Mark.COMPUTER );
   }
 }
