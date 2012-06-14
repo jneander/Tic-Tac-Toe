@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:padding="20dp" >
 
-    <com.jneander.tictactoe.ui.GameView3x3
+    <com.jneander.tictactoe.ui.BoardView
         android:id="@+id/game_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

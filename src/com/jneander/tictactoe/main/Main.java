@@ -11,12 +11,12 @@ import com.jneander.tictactoe.R;
 import com.jneander.tictactoe.game.Console;
 import com.jneander.tictactoe.game.Game;
 import com.jneander.tictactoe.game.Mark;
-import com.jneander.tictactoe.ui.GameView3x3;
+import com.jneander.tictactoe.ui.BoardView;
 
 public class Main extends Activity implements Console {
-  private final Game game = new Game();
+  private final Game game = new Game( 3 );
 
-  private GameView3x3 gameView;
+  private BoardView gameView;
   private TextView messageView;
   private Button makeMarkButton;
   private Button newGameButton;
@@ -28,12 +28,12 @@ public class Main extends Activity implements Console {
 
     game.setConsole( this );
 
-    gameView = (GameView3x3) findViewById( R.id.game_view );
+    gameView = (BoardView) findViewById( R.id.game_view );
     messageView = (TextView) findViewById( R.id.game_message );
     makeMarkButton = (Button) findViewById( R.id.button_make_mark );
     newGameButton = (Button) findViewById( R.id.button_new_game );
 
-    gameView.reset();
+    gameView.setBoardSize( 3 );
 
     makeMarkButton.setOnClickListener( new OnClickListener() {
       @Override

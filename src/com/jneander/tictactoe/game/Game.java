@@ -9,8 +9,8 @@ public class Game {
   private boolean gameOver = false;
   private Mark winner = Mark.BLANK;
 
-  public Game() {
-    board = new Board();
+  public Game(int boardSize) {
+    board = new Board(boardSize);
     computer = new ImpossibleComputer( board );
   }
 

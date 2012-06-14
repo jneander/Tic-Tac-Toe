@@ -15,7 +15,7 @@ public class MinimaxTest {
 
   @Before
   public void setUp() {
-    board = new Board();
+    board = new Board(3);
   }
 
   @Ignore
@@ -40,7 +40,7 @@ public class MinimaxTest {
         for ( markIndices[2] = 0; markIndices[2] < 9; markIndices[2]++ ) {
           for ( markIndices[3] = 0; markIndices[3] < 9; markIndices[3]++ ) {
             if ( integersAreUnique( markIndices ) ) {
-              board = new Board();
+              board = new Board(3);
               boolean terminate = false;
 
               for ( int turn = 0; turn < markIndices.length && !terminate; turn++ ) {
@@ -77,7 +77,7 @@ public class MinimaxTest {
           for ( markIndices[3] = 0; markIndices[3] < 9; markIndices[3]++ ) {
             for ( markIndices[4] = 0; markIndices[4] < 9; markIndices[4]++ ) {
               if ( integersAreUnique( markIndices ) ) {
-                board = new Board();
+                board = new Board(3);
                 boolean terminate = false;
 
                 for ( int turn = 0; turn < markIndices.length && !terminate; turn++ ) {

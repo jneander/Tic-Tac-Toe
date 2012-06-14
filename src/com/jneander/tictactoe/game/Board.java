@@ -7,20 +7,24 @@ public class Board {
   private boolean solutionFound = false;
   private Mark winningMark = Mark.BLANK;
 
-  public final static int winSets[][] = {
-      { 0, 1, 2 }, { 3, 4, 5 },
-      { 6, 7, 8 }, { 0, 3, 6 },
-      { 1, 4, 7 }, { 2, 5, 8 },
-      { 0, 4, 8 }, { 2, 4, 6 }
-  };
+  private int winningSets[][];
+  private int boardSize;
 
-  public Board() {
-    gameBoard = new Mark[9];
-    blankSpaces = 9;
+  public Board( int boardSize ) {
+    this.boardSize = boardSize;
 
-    for ( int boardIndex = 0; boardIndex < gameBoard.length; boardIndex++ ) {
+    gameBoard = new Mark[boardSize * boardSize];
+    blankSpaces = boardSize * boardSize;
+
+    for ( int boardIndex = 0; boardIndex < gameBoard.length; boardIndex++ )
       gameBoard[boardIndex] = Mark.BLANK;
-    }
+
+    winningSets = generateWinningSets( boardSize );
+  }
+
+  public void reset() {
+    for ( int spaceIndex = 0; spaceIndex < gameBoard.length; spaceIndex++ )
+      eraseMark( spaceIndex );
   }
 
   public void addMark( int spaceIndex, Mark mark ) {
@@ -42,11 +46,6 @@ public class Board {
     }
   }
 
-  public void reset() {
-    for ( int spaceIndex = 0; spaceIndex < gameBoard.length; spaceIndex++ )
-      eraseMark( spaceIndex );
-  }
-
   public int[] getAvailableSpaces() {
     int spaces[] = new int[blankSpaces];
     int spacesIndex = 0;
@@ -62,25 +61,60 @@ public class Board {
     return gameBoard[spaceIndex];
   }
 
-  public boolean hasWinningSolution() {
-    this.solutionFound = false;
-    this.winningMark = Mark.BLANK;
-
-    for ( int setIndex = 0; setIndex < winSets.length && !solutionFound; setIndex++ )
-      checkSpacesForWinningSolution( winSets[setIndex][0], winSets[setIndex][1], winSets[setIndex][2] );
-
-    return solutionFound;
-  }
-
   public Mark getWinningMark() {
     return this.winningMark;
   }
 
-  private void checkSpacesForWinningSolution( int first, int second, int third ) {
-    if ( gameBoard[first] == gameBoard[second] && gameBoard[third] == gameBoard[first]
-        && gameBoard[first] != Mark.BLANK ) {
-      solutionFound = true;
-      winningMark = gameBoard[first];
+  public boolean hasWinningSolution() {
+    this.solutionFound = false;
+    this.winningMark = Mark.BLANK;
+
+    checkSpacesForWinningSolution();
+
+    return solutionFound;
+  }
+
+  public static int[][] generateWinningSets( int boardSize ) {
+    int[][] winSets = new int[boardSize * 2 + 2][boardSize];
+    int winSetsAdded = 0;
+
+    int[] diagR = new int[boardSize];
+    int[] diagL = new int[boardSize];
+
+    for ( int rowCol = 0; rowCol < boardSize; rowCol++ ) {
+      int[] rowSet = new int[boardSize];
+      int[] colSet = new int[boardSize];
+
+      for ( int offset = 0; offset < boardSize; offset++ ) {
+        rowSet[offset] = rowCol * boardSize + offset;
+        colSet[offset] = boardSize * offset + rowCol;
+      }
+
+      winSets[winSetsAdded++] = rowSet;
+      winSets[winSetsAdded++] = colSet;
+
+      diagR[rowCol] = rowCol * (boardSize + 1);
+      diagL[rowCol] = (boardSize - 1) + rowCol * (boardSize - 1);
+    }
+
+    winSets[winSetsAdded++] = diagR;
+    winSets[winSetsAdded++] = diagL;
+
+    return winSets;
+  }
+
+  private void checkSpacesForWinningSolution() {
+    for ( int setIndex = 0; setIndex < winningSets.length && !solutionFound; setIndex++ ) {
+      Mark markToCompare = gameBoard[winningSets[setIndex][0]];
+      boolean allMarksMatch = markToCompare != Mark.BLANK;
+
+      for ( int markIndex = 1; markIndex < boardSize && allMarksMatch; markIndex++ )
+        allMarksMatch &= gameBoard[winningSets[setIndex][markIndex]] == markToCompare;
+
+      this.solutionFound = allMarksMatch;
+
+      if ( solutionFound )
+        this.winningMark = markToCompare;
     }
   }
 }
