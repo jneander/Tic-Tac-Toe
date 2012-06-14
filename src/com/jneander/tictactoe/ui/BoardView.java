@@ -66,9 +66,26 @@ public class BoardView extends View {
       gameBoard[spaceIndex] = Mark.BLANK;
   }
 
-  private void getRect( int row, int col, Rect rect ) {
-    rect.set( (int) (row * squareHeight) + 1, (int) (col * squareWidth) + 1,
-        (int) (row * squareHeight + squareHeight), (int) (col * squareWidth + squareWidth) );
+  public int getSelectedSpaceIndex() {
+    return selectedRow * boardSize + selectedCol;
+  }
+
+  public void updateMarkAtPosition( int spaceIndex, Mark mark ) {
+    gameBoard[spaceIndex] = mark;
+    redrawSquare( spaceIndex / boardSize, spaceIndex % boardSize );
+  }
+
+  @Override
+  public boolean onTouchEvent( MotionEvent event ) {
+    if ( event.getAction() != MotionEvent.ACTION_DOWN )
+      return super.onTouchEvent( event );
+
+    int row = (int) (event.getX() / squareWidth);
+    int col = (int) (event.getY() / squareHeight);
+
+    selectSquare( row, col );
+
+    return true;
   }
 
   @Override
@@ -78,6 +95,11 @@ public class BoardView extends View {
     getRect( selectedRow, selectedCol, selectedRect );
 
     super.onSizeChanged( w, h, oldw, oldh );
+  }
+
+  @Override
+  protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec ) {
+    super.onMeasure( widthMeasureSpec, widthMeasureSpec );
   }
 
   @Override
@@ -133,9 +155,9 @@ public class BoardView extends View {
     canvas.drawRect( selectedRect, selected );
   }
 
-  @Override
-  protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec ) {
-    super.onMeasure( widthMeasureSpec, widthMeasureSpec );
+  private void getRect( int row, int col, Rect rect ) {
+    rect.set( (int) (row * squareHeight) + 1, (int) (col * squareWidth) + 1,
+        (int) (row * squareHeight + squareHeight), (int) (col * squareWidth + squareWidth) );
   }
 
   private void selectSquare( int row, int col ) {
@@ -151,27 +173,5 @@ public class BoardView extends View {
   private void redrawSquare( int row, int col ) {
     getRect( row, col, targetRect );
     invalidate( targetRect );
-  }
-
-  @Override
-  public boolean onTouchEvent( MotionEvent event ) {
-    if ( event.getAction() != MotionEvent.ACTION_DOWN )
-      return super.onTouchEvent( event );
-
-    int row = (int) (event.getX() / squareWidth);
-    int col = (int) (event.getY() / squareHeight);
-
-    selectSquare( row, col );
-
-    return true;
-  }
-
-  public void updateMarkAtPosition( int spaceIndex, Mark mark ) {
-    gameBoard[spaceIndex] = mark;
-    redrawSquare( spaceIndex / boardSize, spaceIndex % boardSize );
-  }
-
-  public int getSelectedSpaceIndex() {
-    return selectedRow * boardSize + selectedCol;
   }
 }
