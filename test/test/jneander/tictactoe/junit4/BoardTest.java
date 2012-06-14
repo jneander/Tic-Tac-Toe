@@ -15,6 +15,19 @@ public class BoardTest {
   public void setUp() {
     board = new Board(3);
   }
+  
+  @Test
+  public void canGetAvailableSpaces() {
+    assertEquals(9, board.getAvailableSpaces().length);
+    
+    board.addMark( 0, Mark.PLAYER );
+    assertEquals(8, board.getAvailableSpaces().length);
+    assertEquals(1, board.getAvailableSpaces()[0]);
+    
+    board.addMark( 5, Mark.PLAYER );
+    assertEquals(7, board.getAvailableSpaces().length);
+    assertEquals(6, board.getAvailableSpaces()[4]);
+  }
 
   @Test
   public void boardAcceptsMark() {
