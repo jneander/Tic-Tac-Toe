@@ -11,24 +11,24 @@ import com.jneander.tictactoe.game.ImpossibleComputer;
 import com.jneander.tictactoe.game.Mark;
 
 public class ImpossibleComputerTest {
-  private Board board;
-  private Computer computer;
+  private Board board3x3;
+  private Computer computer3x3;
 
   @Before
   public void setUp() {
-    board = new Board( 3 );
-    computer = new ImpossibleComputer( board );
+    board3x3 = new Board( 3 );
+    computer3x3 = new ImpossibleComputer( board3x3 );
   }
 
   @Test
   public void computerNeverLosesWhenGoingFirst() {
-    board.addMark( computer.getNextMarkPosition(), Mark.COMPUTER );
-    tryPlayerMoves( board, computer );
+    board3x3.addMark( computer3x3.getNextMarkPosition(), Mark.COMPUTER );
+    tryPlayerMoves( board3x3, computer3x3 );
   }
 
   @Test
   public void computerNeverLosesWhenGoingSecond() {
-    tryPlayerMoves( board, computer );
+    tryPlayerMoves( board3x3, computer3x3 );
   }
 
   private void tryPlayerMoves( Board board, Computer computer ) {
