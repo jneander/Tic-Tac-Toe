@@ -48,7 +48,7 @@ public class BoardView extends View {
   }
 
   public void setBoardSize( int size ) {
-    boardSize = (size > 0) ? size : boardSize;
+    boardSize = (size > 2) ? size : boardSize;
     gameBoard = new Mark[boardSize * boardSize];
     reset();
   }
